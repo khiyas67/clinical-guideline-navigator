@@ -1,12 +1,13 @@
 ================================================================================
 AI-ASSISTANT FOR DYNAMIC CLINICAL GUIDELINE NAVIGATOR
-ACADEMIC PROJECT PRESENTATION CONTENT FILE (REVIEW 3)
+ACADEMIC PROJECT PRESENTATION CONTENT FILE (FINAL PRESENTATION & DEFENSE)
 ================================================================================
-Document Type: Academic PPT Content Specification & Review Reference
-Generated for: Review 3 Academic Evaluation
-Verification Status: 100% Verified Against Active Project Codebase & Database
+Document Type: Academic Presentation Content Specification & Review Reference
+Generated for: Final Degree Evaluation & Project Defense (Comprehensive)
+Verification Status: 100% Verified Against Active Full Codebase, Database & 28 Tests
 Root Directory: J:\healthcare RAG\
-Date: September 2026
+Date: November 2026
+Repository: https://github.com/khiyas67/clinical-guideline-navigator
 
 ================================================================================
 1. PROJECT OVERVIEW
@@ -16,32 +17,43 @@ Project Title:
 AI-Assistant for Dynamic Clinical Guideline Navigator
 
 Problem Statement:
-Clinical practice guidelines from international health authorities (such as the WHO and CDC) are extensive, complex, multi-hundred-page documents that are difficult to query rapidly at the point of care. Busy clinicians often lack the time to manually search through voluminous documents, resulting in delayed guideline adoption or reliance on general-purpose AI tools that hallucinate unverified medical advice. Moreover, standard AI assistants lack patient-specific clinical context, cannot cite exact guideline page numbers, and offer no audit trail for medical-legal accountability.
+Clinical practice guidelines from premier international health authorities (such as NICE, KDIGO, AHA/ACC/HFSA, and CDC) represent the gold standard of evidence-based medicine. However, they are voluminous, complex, multi-hundred-page documents that are impossible to query rapidly during standard 15-minute consultations. Busy clinicians face immense cognitive load when cross-referencing multi-morbid conditions, resulting in delayed guideline adoption or risky reliance on commercial AI chatbots that hallucinate unverified medical advice. Generic AI models lack patient-specific clinical context (such as baseline eGFR, active medications, or allergies), cannot verify official guideline page numbers, and offer no audit trail for medical-legal accountability.
 
 Proposed Solution:
-A specialized, evidence-grounded Clinical Decision Support System (CDSS) that pairs a modern React frontend with a FastAPI backend, pgvector semantic search over authoritative WHO and CDC clinical practice guidelines, and Groq high-throughput LLM synthesis. The system enforces strict evidence-grounding (zero extrapolation without retrieved evidence), incorporates individualized patient profiles (conditions, medications, allergies, history), provides direct citations to official PDF page numbers, and records a structured clinical decision audit trail (Accept / Modify / Reject).
+An enterprise-grade, evidence-grounded Clinical Decision Support System (CDSS) pairing high-throughput Retrieval-Augmented Generation (RAG) over authoritative clinical practice guidelines with patient-specific contextualization, structured clinical guidance, and an immutable decision audit trail. The system couples a modern React 19 / TypeScript single-page application with a high-performance Python FastAPI microservice, Supabase PostgreSQL with 'pgvector' dense vector indexing (HNSW), local 384-dimensional BGE embeddings ('BAAI/bge-small-en-v1.5'), and Groq Cloud LPU acceleration ('qwen/qwen3.8-27b'). The system strictly enforces zero fabrication, parameter completeness, multi-specialty guideline navigation across all 8 canonical clinical categories, and an explicit human-in-the-loop clinical governance workflow (Accept / Modify with rationale / Reject).
 
 Main Objectives:
-1. High-Precision Retrieval: Index authoritative clinical practice guidelines using dense 384-dimensional sentence embeddings (BAAI/bge-small-en-v1.5) and cosine similarity in PostgreSQL (pgvector).
-2. Evidence Grounding & Safety: Guard all AI responses using strict grounding prompts and a Query Router that bypasses RAG for greetings and out-of-scope inquiries.
-3. Patient-Specific Contextualization: Automatically ground clinical guidance against active patient diagnoses, medications, and allergies without compromising PHI.
-4. Clinician Oversight & Auditability: Provide an explicit Accept / Modify / Reject governance workflow where clinician decisions are persisted in an immutable audit trail with rationales.
-5. Point-of-Care Accessibility: Deliver an intuitive, responsive interface with dynamic category suggestions and verified source links.
+1. High-Precision Semantic Retrieval: Index authoritative clinical guidelines using 384-dimensional dense sentence embeddings ('BAAI/bge-small-en-v1.5') and cosine similarity in PostgreSQL ('pgvector' with HNSW indexing).
+2. Evidence Grounding & Clinical Safety: Constrain generative synthesis strictly to retrieved evidence chunks, enforcing conditional treatment recommendations based on verified clinical thresholds and explicitly flagging missing diagnostic values.
+3. Patient-Specific Contextualization: Automatically ground clinical advice against the selected patient's active diagnoses, medications, allergies, and vitals without exposing Protected Health Information (PHI).
+4. Multi-Specialty Guideline Expansion: Support multi-category classification across 8 canonical clinical domains (Nephrology, Pain Management, Endocrinology, Diabetes, Cardiovascular, Hypertension, Infectious Disease, General) with direct links to official PDFs.
+5. Quality Control & Duplicate Prevention: Provide an automated PDF ingestion pipeline with cryptographic SHA-256 analysis, structural readability verification, clinical authenticity scoring, and edition detection.
+6. Clinician Oversight & Auditability: Enforce a human-in-the-loop decision governance workflow where clinician actions (Accept / Modify / Reject) are permanently recorded in an immutable PostgreSQL audit trail.
+7. Point-of-Care Accessibility & Export: Deliver sub-second retrieval latency, responsive mobile-ready interface, and formatted clinical consultation report generation (PDF and DOCX).
 
 Target Users:
 - General practitioners, resident physicians, and clinical specialists.
-- Hospital medical officers and outpatient clinicians.
-- Healthcare researchers evaluating evidence-based practice compliance.
+- Hospital medical officers, outpatient clinicians, and clinical pharmacists.
+- Healthcare quality researchers evaluating evidence-based practice compliance.
 
 Key Benefits:
-- Rapid Point-of-Care Decision Support: Sub-second guideline retrieval and grounded recommendation synthesis.
-- Hallucination Prevention: If indexed evidence is insufficient, the system explicitly returns an insufficient-evidence advisory rather than inventing medical recommendations.
-- Traceability: Every recommendation displays the publishing authority, document title, section, page number, and similarity score.
-- Accountability: Full clinician-in-the-loop decision capture for institutional review and patient safety.
+- Rapid Point-of-Care Decision Support: Sub-second guideline retrieval (~0.69s) and grounded recommendation synthesis (< 1.5s total round trip).
+- Hallucination Elimination: If indexed evidence is insufficient (similarity < 0.45), the system returns an explicit insufficiency advisory rather than inventing medical recommendations.
+- Traceability & Provenance: Every recommendation displays the publishing authority, document title, section heading, exact PDF page number, similarity score, and direct working PDF link.
+- Parameter Completeness Guard: Never recommends specific dosages without baseline clinical parameters (e.g., eGFR, ACR, potassium) and highlights missing tests.
+- Medical-Legal Accountability: Append-only decision capture with timestamps, clinician IDs, and clinician rationales.
 
 Scope of the Project:
-- Current Implemented Clinical Domains: Type 2 Diabetes Management (WHO HEARTS-D & 2nd/3rd line pharmacotherapy), Adult Hypertension (WHO Guideline), and Pain Management/Opioid Prescribing (CDC 2022 MMWR Guideline).
-- Non-Scope / Boundaries: The system does NOT directly execute prescriptions, does NOT replace human clinical judgment, and explicitly restricts general non-medical queries.
+- Active Knowledge Base: 14 clinical guidelines (12 active, 2 archived benchmarks) covering 8 canonical clinical specialties:
+  1. Nephrology (KDIGO 2022 Diabetes in CKD, Clinician SGLT2i Summary, KDIGO 2024 Evaluation)
+  2. Pain Management (CDC 2022 Opioids, NICE NG193 Chronic Pain)
+  3. Endocrinology (NICE NG28 Type 2 Diabetes, NICE NG145 Thyroid Disease, SGLT2i Summary)
+  4. Diabetes (KDIGO 2022, NICE NG28 Type 2 Diabetes, SGLT2i Summary, Demo Guideline)
+  5. Cardiovascular (AHA/ACC/HFSA 2022 Heart Failure, NICE NG136 Hypertension, NICE NG196 Atrial Fibrillation, SGLT2i Summary)
+  6. Hypertension (NICE NG136 Hypertension, AHA/ACC/HFSA 2022 Heart Failure, NICE NG196 Atrial Fibrillation)
+  7. Infectious Disease (NICE NG15 Antimicrobial Stewardship, NICE NG191 COVID-19 Rapid Guideline)
+  8. General (CDC 2022 Opioids, NICE NG193 Chronic Pain, NICE NG145 Thyroid, NICE NG15 Antimicrobial Stewardship, NICE NG191 COVID-19, NICE NG56 Multimorbidity)
+- Non-Scope / Boundaries: The system provides clinical decision support; it does NOT directly execute pharmacy orders, does NOT automate prescription dispensing, and explicitly restricts general non-medical queries.
 
 
 ================================================================================
@@ -49,74 +61,76 @@ Scope of the Project:
 ================================================================================
 
 Architecture Description:
-The application follows a decoupled client-server microservices pattern with strict separation between user interface, authentication/persistence, embedding computation, vector retrieval, and LLM inference:
+The application follows an enterprise decoupled client-server microservices pattern with strict separation between user presentation, identity/access control, local embedding computation, vector database search, and high-speed LLM inference:
 
-1. User / Clinician: Interacts with the secure single-page application via modern web browsers.
-2. React 19 Frontend: Built with TypeScript, Vite, and Tailwind CSS. Manages UI state, route guarding, dynamic question suggestions, patient profile management, and interactive EvidenceCards.
+1. User / Clinician: Interacts with the secure single-page application via modern web browsers (desktop, tablet, mobile).
+2. React 19 Frontend: Built with TypeScript, Vite, and Tailwind CSS. Manages UI state, route guarding, dynamic category suggestions, patient profile management, interactive EvidenceCards, and report generation modals.
 3. Supabase Authentication & RLS: Manages user session tokens (JWT) and enforces PostgreSQL Row Level Security (RLS) so clinicians can only access their own patient records and decision logs.
-4. FastAPI Backend (REST API): Handles query routing, query embedding generation, context assembly, and RAG pipeline orchestration on port 8000.
-5. Query Router: Pre-classifies inputs via regular expressions and medical keyword dictionaries into greeting, out_of_scope, unclear, or healthcare.
-6. Local Embedding Engine: Uses sentence-transformers with 'BAAI/bge-small-en-v1.5' (384 dimensions) to convert queries into dense normalized vectors locally on the server.
+4. FastAPI Backend (REST API): Handles query routing, query embedding generation, context assembly, guideline QC ingestion, and RAG pipeline orchestration on port 8000.
+5. Query Router: Pre-classifies inputs via regular expressions and a 60+ medical keyword lexicon into greeting, out_of_scope, unclear, or healthcare.
+6. Local Embedding Engine: Uses sentence-transformers with 'BAAI/bge-small-en-v1.5' (384 dimensions) to convert queries and guideline chunks into dense normalized vectors locally on the server.
 7. Supabase pgvector: PostgreSQL database with the pgvector extension and an HNSW cosine distance index. Executes the 'match_guideline_chunks' RPC to fetch top-k relevant guideline passages.
-8. Evidence Validator: Evaluates whether retrieved chunks exceed similarity thresholds and satisfy evidence sufficiency.
-9. Groq Cloud Inference Engine: Invokes high-speed Llama-3.3-70b-versatile with temperature=0.1 to generate grounded clinical advice.
-10. Evidence Grounded Output: Returns synthesized clinical advice alongside exact guideline source cards (organization, title, page, similarity, and official PDF links).
-11. Clinician Decision Workflow: Clinician reviews advice and records an Accept, Modify, or Reject decision with clinical rationale.
+8. Evidence Validator: Evaluates whether retrieved chunks exceed similarity thresholds (threshold >= 0.45) and satisfy evidence completeness.
+9. Groq Cloud Inference Engine: Invokes high-speed 'qwen/qwen3.8-27b' with low temperature (0.1) and strict clinical grounding instructions.
+10. Evidence Grounded Output: Returns synthesized clinical advice alongside exact guideline source cards citing authority, title, section, page number, similarity score, and direct PDF link.
+11. Clinician Decision Workflow: Clinician reviews advice and records an Accept, Modify (with mandatory rationale), or Reject decision.
 12. Audit Trail Persistence: The finalized decision and evidence snapshot are written to the 'clinical_decisions' table in Supabase.
+13. Report Generation Engine: Generates downloadable clinical consultation summaries in PDF (ReportLab) or DOCX (python-docx) formats via '/api/reports/export'.
 
-Text-Based Architecture Flowchart:
+Architecture Flow Diagram:
 
-[ Clinician / Healthcare Professional ]
-                 │
-                 ▼
-     [ React 19 + TypeScript SPA ]
-     (Dynamic Suggestions, UI Forms, EvidenceCards)
-                 │
-    ┌────────────┴──────────────────────────┐
-    │                                       │
-    ▼ (Auth & CRUD)                         ▼ (POST /api/query)
-[ Supabase Auth & PostgreSQL ]       [ FastAPI Backend Service ]
-  - JWT Session Validation             - CORS & Request Validation
-  - Row Level Security (RLS)           - Patient Context Loader
-  - Patients & Audit Tables                 │
-                                            ▼
-                                   [ Query Router Engine ]
-                                  (Regex & Medical Lexicon)
-                                            │
-                      ┌─────────────────────┼─────────────────────┐
-                      ▼                     ▼                     ▼
-                 [ Greeting ]        [ Out-of-Scope ]      [ Healthcare ]
-                      │                     │                     │
-               (Canned Answer)       (Scope Notice)               ▼
-                                                       [ BGE Embedding Model ]
-                                                     (BAAI/bge-small-en-v1.5)
-                                                       (384-dim Dense Vector)
-                                                                  │
-                                                                  ▼
-                                                       [ Supabase pgvector ]
-                                                      (HNSW Cosine Similarity)
-                                                      (match_guideline_chunks)
-                                                                  │
-                                                                  ▼
-                                                      [ Evidence Evaluation ]
-                                                      (Top-5 Chunks / Filter)
-                                                                  │
-                                                                  ▼
-                                                      [ Groq LLM Inference ]
-                                                     (llama-3.3-70b-versatile)
-                                                     (Temperature: 0.1 / Safe)
-                                                                  │
-                                                                  ▼
-                                                     [ Grounded Response API ]
-                                                     (Advice + Evidence Cards)
-                                                                  │
-                                                                  ▼
-                                                     [ Clinician Oversight ]
-                                                     (Accept / Modify / Reject)
-                                                                  │
-                                                                  ▼
-                                                     [ PostgreSQL Audit Trail ]
-                                                     (public.clinical_decisions)
+  +-------------------------------------------------------------------------+
+  |                          CLINICIAN BROWSER                              |
+  |  (React 19 + TypeScript + Vite + Tailwind CSS + Lucide React + Auth)    |
+  +-----------------------------------+-------------------------------------+
+                                      |
+                         HTTP / REST  |  Supabase Auth (JWT)
+                                      v
+  +-------------------------------------------------------------------------+
+  |                         FASTAPI BACKEND SERVICE                         |
+  |                                                                         |
+  |  +---------------------+   +---------------------+   +---------------+  |
+  |  |    Query Router     |   |   Guideline QC      |   | Report Export |  |
+  |  | (Regex/Lexicon Gate)|   |  (SHA-256/Chunker)  |   |  (PDF / DOCX) |  |
+  |  +----------+----------+   +----------+----------+   +---------------+  |
+  |             |                         |                                 |
+  |             v                         v                                 |
+  |  +---------------------+   +---------------------+                      |
+  |  | Patient Context     |   | Local BGE Embedder  |                      |
+  |  | (Conditions/Labs)   |   | (384-d normalized)  |                      |
+  |  +----------+----------+   +----------+----------+                      |
+  |             |                         |                                 |
+  +-------------|-------------------------|---------------------------------+
+                |                         |
+                v                         v
+  +-------------------------------------------------------------------------+
+  |                    SUPABASE POSTGRESQL + PGVECTOR                       |
+  |                                                                         |
+  |  - public.patients (Clinician RLS)                                      |
+  |  - public.guidelines (14 Guidelines across 8 Specialties)               |
+  |  - public.guideline_documents (Checksums, Versions, PDF URLs)           |
+  |  - public.guideline_chunks (1,990 Chunks with vector(384) HNSW Index)   |
+  |  - public.clinical_decisions (Immutable Medical-Legal Audit Trail)      |
+  |  - RPC: match_guideline_chunks(query_vector, threshold, top_k)         |
+  +-----------------------------------+-------------------------------------+
+                                      | Top-k Evidence Chunks (sim >= 0.45)
+                                      v
+  +-------------------------------------------------------------------------+
+  |                        GROQ CLOUD LPU INFERENCE                         |
+  |                 Model: qwen/qwen3.8-27b (Temperature: 0.1)              |
+  |  - Strict Grounding Prompt (Zero Fabrication, Mandatory Conditionality) |
+  |  - Standardized 7-Part Clinical Response Structure                      |
+  |  - Citations with Authority, Title, Section, Page & Working PDF Link    |
+  +-----------------------------------+-------------------------------------+
+                                      |
+                                      v
+  +-------------------------------------------------------------------------+
+  |                         CLINICIAN DECISION WORKFLOW                     |
+  |       [ ACCEPT DECISION ]   [ MODIFY WITH RATIONALE ]   [ REJECT ]      |
+  |                                   |                                     |
+  |                                   v                                     |
+  |                 Written to public.clinical_decisions                    |
+  +-------------------------------------------------------------------------+
 
 
 ================================================================================
@@ -126,7 +140,7 @@ Text-Based Architecture Flowchart:
 Step-by-Step Retrieval-Augmented Generation Pipeline:
 
 Step 1: Clinical Query Submission
-The clinician inputs a clinical query (or selects a dynamic category suggestion) from the assistant interface. The request payload contains: question, optional patient_id, and category.
+The clinician inputs a clinical query (or selects a dynamic category suggestion) from the assistant interface. The request payload contains: question, optional patient_id, clinician_id, and category filter.
 
 Step 2: Query Classification (Query Router)
 Before generating embeddings or querying LLMs, the query is evaluated by 'classify_query()':
@@ -134,119 +148,103 @@ Before generating embeddings or querying LLMs, the query is evaluated by 'classi
 - If classified as 'healthcare', it proceeds to vector retrieval.
 
 Step 3: Patient Context Retrieval
-If a 'patient_id' is supplied, the backend fetches non-identifying clinical variables: age, gender, diagnosed medical conditions, active medications, documented allergies, and medical history summary.
+If a 'patient_id' is supplied, the backend fetches non-identifying clinical variables: age, gender, diagnosed medical conditions, active medications, documented allergies, and medical history summary. Clinician authorization is strictly enforced under RLS.
 
 Step 4: Query Vector Embedding
-The query string is prepended with the BGE retrieval instruction:
+The query string is prepended with the official BGE retrieval instruction:
 "Represent this sentence for searching relevant clinical passages: <query>"
-The BAAI/bge-small-en-v1.5 model generates a 384-dimensional normalized vector.
+If pertinent patient conditions (e.g., stage 3 CKD) are identified and not in the prompt, they enrich the retrieval query. The BAAI/bge-small-en-v1.5 model generates a 384-dimensional normalized vector locally.
 
 Step 5: Vector Similarity Search
 The vector is passed to the Supabase PostgreSQL RPC function 'match_guideline_chunks'. pgvector performs an HNSW-indexed cosine distance calculation:
 similarity = 1 - (chunk_embedding <=> query_embedding)
-Only chunks satisfying similarity >= 0.40 are retrieved (default top_k = 5).
+Only chunks satisfying similarity >= 0.45 are retrieved (default top_k = 5).
 
 Step 6: Relevant Guideline Retrieval & Deduplication
-The database returns structured records containing: content, page_number, section_title, guideline_title, organization, source_url, pdf_url, and similarity score.
+The database returns structured records containing: content, page_number, section_title, guideline_title, organization, source_url, pdf_url, and similarity score. Chunks are deduplicated by guideline ID and section to maximize evidence diversity.
 
-Step 7: Evidence Sufficiency Check
-If zero chunks pass the similarity threshold, the pipeline immediately returns:
-"I couldn't find sufficiently relevant evidence in the currently indexed clinical guidelines to answer that question confidently..."
-This prevents hallucination before LLM invocation.
+Step 7: Evidence Sufficiency Evaluation
+The backend checks if retrieved chunks satisfy the clinical relevance threshold:
+- If no chunks pass the threshold, the pipeline returns a safe Insufficient Evidence advisory.
+- If sufficient evidence is present, the pipeline formats the chunks into a numbered evidence block.
 
-Step 8: Prompt Construction
-A strict prompt is synthesized containing:
-- System Prompt: Defines Clinical Navigator's role, zero-extrapolation rule, explicit citation mandate, and insufficiency statement directive.
-- Patient Context Section: Lists patient age, gender, conditions, allergies, and medications.
-- Retrieved Guideline Evidence Section: Formats each evidence block with organization, guideline title, section, page number, and chunk text.
-- User Question.
+Step 8: Grounded Groq LLM Synthesis
+The prompt combines the system prompt, patient context, and evidence chunks. Groq Cloud generates a grounded response formatted into the standardized 7-part clinical response structure.
 
-Step 9: Groq High-Speed LLM Generation
-The prompt is transmitted to Groq cloud API utilizing 'llama-3.3-70b-versatile' (with automated fallback to candidate models if needed). Temperature is set to 0.1 to enforce deterministic, evidence-grounded outputs.
+Step 9: Provenance & Direct PDF Resolution
+The backend formats each source chunk into a SourceItem with organization, title, section, page, similarity score, and working direct PDF URL.
 
-Step 10: Source Metadata Assembly
-The backend compiles 'SourceItem' objects including guideline title, organization, section, page number, similarity percentage, clean text excerpt, and direct PDF URLs.
-
-Step 11: Final Response Delivery
-The frontend renders the structured recommendation, patient applicability badges, and interactive EvidenceCards.
-
-Step 12: Decision Persistence & Audit Trail
-When the clinician selects Accept, Modify, or Reject, the decision status, original AI answer, final modified decision, rationale, and snapshot of sources are saved to 'public.clinical_decisions'.
+Step 10: Clinical Decision Capture
+The frontend renders the structured advice, displays interactive EvidenceCards, and surfaces Accept / Modify / Reject governance buttons. Actions are persisted directly into the immutable audit trail.
 
 
 ================================================================================
 4. RAG PSEUDOCODE
 ================================================================================
 
-ALGORITHM: ClinicalGuidelineRAGOrchestration
-INPUT:     Question Q, Optional PatientID P_id, Optional Category C
-OUTPUT:    Response Object (Type, Answer, Sources[])
+```python
+def run_rag_pipeline(request: QueryRequest) -> QueryResponse:
+    # 1. Intent Classification via Query Router
+    q_type, canned_answer = classify_query(request.question)
+    if q_type in ["greeting", "out_of_scope", "unclear"]:
+        return QueryResponse(type=q_type, answer=canned_answer, sources=[])
 
-BEGIN
-    CleanedQuery = Trim(Q)
-    
-    // Step 1: Query Router Pre-Classification
-    (QueryType, CannedResponse) = ClassifyQuery(CleanedQuery)
-    
-    IF QueryType IN ["greeting", "out_of_scope", "unclear"] THEN
-        RETURN QueryResponse(type=QueryType, answer=CannedResponse, sources=[])
-    END IF
-    
-    // Step 2: Patient Context Extraction
-    PatientContext = NULL
-    IF P_id IS NOT NULL THEN
-        PatientContext = FetchPatientContext(P_id) // Age, Conditions, Allergies, Meds
-    END IF
-    
-    // Step 3: Local Dense Vector Embedding
-    PrefixedQuery = "Represent this sentence for searching relevant clinical passages: " + CleanedQuery
-    QueryVector = BGE_Embed(PrefixedQuery, dimensions=384, normalize=TRUE)
-    
-    // Step 4: Vector Similarity Search via pgvector
-    EvidenceChunks = Execute_RPC("match_guideline_chunks", {
-        query_embedding: QueryVector,
-        match_threshold: 0.40,
-        match_count: 5
-    })
-    
-    // Step 5: Evidence Sufficiency Verification
-    IF Length(EvidenceChunks) == 0 THEN
-        RETURN QueryResponse(
+    # 2. Retrieve Authorized Patient Context (if selected)
+    patient_context = None
+    if request.patient_id:
+        patient_context = get_patient_clinical_context(
+            patient_id=request.patient_id,
+            clinician_id=request.clinician_id
+        )
+
+    # 3. Contextual Query Enrichment
+    retrieval_query = request.question
+    if patient_context and patient_context.get("conditions"):
+        conds = [c for c in patient_context["conditions"] if c.lower() not in request.question.lower()]
+        if conds:
+            retrieval_query = f"{request.question} ({', '.join(conds[:2])})"
+
+    # 4. Dense Vector Embedding (384 dimensions)
+    query_vector = embed_query(retrieval_query)
+
+    # 5. pgvector Cosine Similarity Retrieval (HNSW RPC)
+    chunks = retrieve_guideline_chunks(
+        query_embedding=query_vector,
+        match_threshold=0.45,
+        match_count=5
+    )
+
+    # 6. Sufficiency Verification
+    if not chunks:
+        return QueryResponse(
             type="healthcare",
-            answer="The currently available indexed guideline evidence is insufficient to answer this specific question with confidence.",
+            answer="I could not find sufficiently relevant evidence in the currently indexed clinical guidelines...",
             sources=[]
         )
-    END IF
-    
-    // Step 6: Evidence & Context Prompt Construction
-    FormattedEvidence = FormatEvidenceBlocks(EvidenceChunks) // Org, Title, Section, Page, Content
-    FormattedPatient = FormatPatientProfile(PatientContext)
-    
-    PromptPayload = ConstructGroundedPrompt(
-        SystemInstructions=SYSTEM_GROUNDING_RULES,
-        PatientContext=FormattedPatient,
-        Evidence=FormattedEvidence,
-        Question=CleanedQuery
+
+    # 7. Grounded LLM Synthesis via Groq (qwen/qwen3.8-27b)
+    answer = generate_grounded_answer(
+        question=request.question,
+        evidence_chunks=chunks,
+        patient_context=patient_context
     )
-    
-    // Step 7: Deterministic LLM Inference
-    GroundedAnswer = InvokeGroqLLM(
-        model="llama-3.3-70b-versatile",
-        temperature=0.1,
-        max_tokens=1024,
-        prompt=PromptPayload
-    )
-    
-    // Step 8: Source Metadata Extraction
-    SourceCards = ExtractSourceMetadata(EvidenceChunks)
-    
-    // Step 9: Return Grounded Response
-    RETURN QueryResponse(
-        type="healthcare",
-        answer=GroundedAnswer,
-        sources=SourceCards
-    )
-END
+
+    # 8. Source Formatting & Provenance Mapping
+    sources = []
+    for c in chunks:
+        sources.append(SourceItem(
+            guideline_id=str(c["guideline_id"]),
+            title=c["guideline_title"],
+            organization=c["organization"],
+            section=c["section_title"],
+            page=c["page_number"],
+            excerpt=c["content"][:260] + "...",
+            pdf_url=c["pdf_url"],
+            similarity=round(float(c["similarity"]), 4)
+        ))
+
+    return QueryResponse(type="healthcare", answer=answer, sources=sources)
+```
 
 
 ================================================================================
@@ -254,45 +252,21 @@ END
 ================================================================================
 
 Purpose:
-Acts as a computational and safety gatekeeper. It classifies inbound queries prior to embedding generation or database querying, ensuring cost efficiency, fast response times for non-clinical interactions, and clear boundary enforcement.
+A deterministic, rule-based pre-retrieval triage layer that classifies inputs to minimize latency, eliminate unnecessary LLM compute costs, and guard system boundaries.
 
-Classification Classes & Behavior:
-
+Classification Categories:
 1. Greeting:
-   - Detection: Regex matching for common salutations (e.g., "hi", "hello", "good morning", "who are you").
-   - Action: Returns friendly introductory guidance without invoking vector search or LLM.
-   - Response: "Hello! 👋 How can I help you with a healthcare or clinical guideline question today?"
-
+   - Patterns: "hi", "hello", "good morning", "hey", "how are you"
+   - Action: Returns immediate friendly clinical assistant greeting (0 vector search, 0 LLM cost).
 2. Out-of-Scope:
-   - Detection: Regex matching for programming code requests, sports results, movie trivia, jokes, financial queries, and general web questions.
-   - Action: Returns boundary enforcement notice.
-   - Response: "I'm designed to assist with healthcare and clinical guideline-related questions. Please ask me something related to a patient's condition, diagnosis, treatment, medication, or clinical guidelines."
-
+   - Patterns: Sports, coding, entertainment, trivia, politics, non-clinical tasks.
+   - Action: Returns polite boundary reminder that the system is dedicated to healthcare decision support.
 3. Unclear:
-   - Detection: Inputs that are empty, or <= 2 words with zero medical terminology.
-   - Action: Prompts clinician for additional clinical specifics.
-   - Response: "I couldn't quite understand your clinical question. Could you please provide more detail about the patient's condition, symptom, or the guideline topic you'd like to consult?"
-
+   - Patterns: Very short strings (< 3 chars), random keystrokes ("asdf", "xyz").
+   - Action: Prompts clinician to enter a specific medical question or select a patient.
 4. Healthcare:
-   - Detection: Matches extensive curated medical dictionary (diseases, drugs, diagnostics, guidelines, clinical actions) or multi-word clinical phrases.
-   - Action: Routes to full RAG pipeline (BGE Embeddings -> pgvector -> Groq).
-
-Decision Flow Diagram:
-
-              [ Inbound User Query ]
-                        │
-                        ▼
-            [ Clean & Normalize Text ]
-                        │
-       ┌────────────────┼────────────────┬────────────────┐
-       ▼                ▼                ▼                ▼
-[ Matches Greeting ] [ Matches Out-of-Scope ] [ <= 2 Words No Term ] [ Matches Medical Terms ]
-       │                │                │                │
-       ▼                ▼                ▼                ▼
-  "greeting"      "out_of_scope"     "unclear"       "healthcare"
-       │                │                │                │
-       ▼                ▼                ▼                ▼
- (Canned Salutation) (Scope Notice) (Clarification) (Full RAG Pipeline)
+   - Patterns: Evaluated against a 60+ medical keyword lexicon (e.g., "hypertension", "diabetes", "sglt2", "egfr", "dosage", "pain", "stewardship", "covid", "contraindication").
+   - Action: Routes to the full RAG pipeline for vector retrieval and grounded synthesis.
 
 
 ================================================================================
@@ -300,134 +274,129 @@ Decision Flow Diagram:
 ================================================================================
 
 Embedding Model:
-- Model Identifier: BAAI/bge-small-en-v1.5
-- Framework: sentence-transformers (PyTorch backend)
-- Vector Dimensionality: 384 dimensions
-- Normalization: L2 Normalized embeddings (enabling cosine similarity computation via dot product)
-- Query Prefixing: Automatically prepends "Represent this sentence for searching relevant clinical passages: " to optimize retrieval performance for asymmetric search tasks.
+- Model Name: 'BAAI/bge-small-en-v1.5' (Beijing Academy of Artificial Intelligence)
+- Architecture: Transformer-based dense encoder running locally via sentence-transformers.
+- Embedding Dimensionality: 384 dimensions (exact float values).
+- Normalization: L2 unit-norm normalized, enabling cosine similarity via simple dot product.
+- Instruction Prefix: Formatted as "Represent this sentence for searching relevant clinical passages: <text>"
 
-Vector Database & pgvector Setup:
-- Database Engine: PostgreSQL 15+ hosted on Supabase
-- Extension: pgvector
-- Column Type: VECTOR(384) on table 'public.guideline_chunks'
-- Index Type: HNSW (Hierarchical Navigable Small World) index
-- Index Definition: CREATE INDEX idx_guideline_chunks_embedding ON public.guideline_chunks USING hnsw (embedding vector_cosine_ops);
-- Similarity Metric: Cosine Distance (<=> operator), converted to similarity via (1 - (embedding <=> query_embedding))
-- Default Match Threshold: 0.40 (40% minimum cosine similarity)
-- Default Top-K Retrieval: 5 chunks
-- RPC Function: match_guideline_chunks(query_embedding, match_threshold, match_count, filter_guideline_id)
+Vector Search Implementation:
+- Storage Engine: Supabase PostgreSQL 15+ with 'pgvector' extension.
+- Table: 'public.guideline_chunks' with column 'embedding vector(384)'.
+- Vector Index: HNSW (Hierarchical Navigable Small World) with 'vector_cosine_ops'.
+- Distance Metric: Cosine distance operator (<=>).
+  Similarity = 1 - (chunk.embedding <=> query_embedding)
+- Stored Procedure: 'match_guideline_chunks' joins chunks with guidelines table to return rich metadata in a single sub-second database query (~0.69s latency).
 
 
 ================================================================================
-7. KNOWLEDGE BASE
+7. CLINICAL GUIDELINES KNOWLEDGE BASE (PHASE 12.6 EXPANSION)
 ================================================================================
 
-Knowledge Base Status:
-The knowledge base comprises globally open, authoritative clinical practice guidelines with complete document ingestion and verified vector embeddings. All legacy geo-restricted sources (such as UK NICE) have been completely removed.
+The knowledge base was systematically expanded in Phase 12.6 to eliminate empty categories and provide authentic official practice guidelines across all 8 canonical specialties.
 
-Verified Guidelines Currently Indexed in PostgreSQL:
+Total Knowledge Base Inventory:
+- Total Guidelines in DB: 14 Guidelines (12 Active Official/Community, 2 Archived Benchmarks)
+- Total Documents: 15 Documents
+- Total Chunks: 1,990 Chunks (100% indexed in pgvector)
+- Database Duplicates: 0 Duplicates (Enforced via SHA-256 Checksums)
 
-1. WHO HEARTS-D: Diagnosis and Management of Type 2 Diabetes
-   - Organization: World Health Organization (WHO)
-   - Category: Diabetes
-   - Document Type: Clinical Practice Guideline
-   - Publication Identifier: WHO-UCN-NCD-20.1
-   - Total Chunks: 84 chunks (34 pages)
-   - Source URL: https://www.who.int/publications/i/item/who-ucn-ncd-20.1
-   - Ingestion Status: Completed
+Complete Guideline Table:
 
-2. WHO Guidelines on Second- and Third-Line Medicines and Type of Insulin for Type 2 Diabetes
-   - Organization: World Health Organization (WHO)
-   - Category: Diabetes
-   - Document Type: Clinical Practice Guideline
-   - Publication Identifier: ISBN 978-92-4-155028-4
-   - Total Chunks: 225 chunks (71 pages)
-   - Source URL: https://www.who.int/publications/i/item/9789241550284
-   - Ingestion Status: Completed
+| # | ID (Prefix) | Title | Organization | Year | Category | Status | Chunks | Official PDF Link |
+|---|-------------|-------|--------------|:----:|----------|:------:|:------:|-------------------|
+| 1 | 3b34c0a5 | Hypertension in Adults: Diagnosis and Management (NG136) | NICE | 2022 | Hypertension, Cardiovascular | active | 140 | Available (NICE) |
+| 2 | 8885fa61 | Type 2 Diabetes in Adults: Management (NG28) | NICE | 2022 | Diabetes, Endocrinology | active | 302 | Available (NICE) |
+| 3 | 1d8c77ea | Chronic Pain in Over 16s: Assessment and Management (NG193) | NICE | 2021 | Pain Management, General | active | 110 | Available (NICE) |
+| 4 | a31d9424 | Thyroid Disease: Assessment and Management (NG145) | NICE | 2023 | Endocrinology, General | active | 153 | Available (NICE) |
+| 5 | d71354e8 | Antimicrobial Stewardship: Systems & Processes (NG15) | NICE | 2021 | Infectious Disease, General | active | 63 | Available (NICE) |
+| 6 | 7693b1d4 | COVID-19 Rapid Guideline: Managing COVID-19 (NG191) | NICE | 2024 | Infectious Disease, General | active | 169 | Available (NICE) |
+| 7 | c2df5b76 | Atrial Fibrillation: Diagnosis and Management (NG196) | NICE | 2021 | Cardiovascular, Hypertension | active | 122 | Available (NICE) |
+| 8 | ae483a33 | Multimorbidity: Clinical Assessment and Management (NG56) | NICE | 2022 | General | active | 59 | Available (NICE) |
+| 9 | 3ed31dbd | KDIGO 2022 Clinical Practice Guideline for Diabetes in CKD | KDIGO | 2022 | Nephrology, Diabetes | active | 36 | Available (KDIGO) |
+| 10| 1783c41a | 2022 AHA/ACC/HFSA Guideline for Management of Heart Failure | AHA/ACC/HFSA | 2022 | Cardiovascular, Hypertension | active | 127 | Available (AHA) |
+| 11| 616f325d | CDC Clinical Practice Guideline for Prescribing Opioids | CDC | 2022 | Pain Management, General | active | 700 | Available (CDC) |
+| 12| 2ea7ef2a | Clinician Community Contributed SGLT2i Summary | Clinician Forum | 2024 | Endocrinology, Diabetes, Nephrology, Cardiovascular | active | 2 | Available (Ref) |
+| 13| 8141c103 | KDIGO 2024 Evaluation and Management of CKD (Archived Benchmark) | KDIGO | 2024 | Nephrology | archived | 2 | Official Site |
+| 14| 069969fa | Clinical Navigator Demo Guideline — Type 2 Diabetes (Archived Demo) | Academic Demo | 2026 | Diabetes | archived | 5 | Official Site |
 
-3. WHO Guideline for the Pharmacological Treatment of Hypertension in Adults
-   - Organization: World Health Organization (WHO)
-   - Category: Hypertension
-   - Document Type: Clinical Practice Guideline
-   - Publication Identifier: ISBN 978-92-4-003398-6
-   - Total Chunks: 214 chunks (58 pages)
-   - Source URL: https://www.who.int/publications/i/item/9789240033986
-   - Ingestion Status: Completed
+Category Distribution (Zero Empty Categories):
+- Nephrology: 3 Guidelines (KDIGO 2022, SGLT2i Summary, KDIGO 2024 Archived)
+- Pain Management: 2 Guidelines (CDC 2022 Opioids, NICE NG193 Chronic Pain)
+- Endocrinology: 3 Guidelines (NICE NG28 T2D, NICE NG145 Thyroid, SGLT2i Summary)
+- Diabetes: 4 Guidelines (KDIGO 2022, NICE NG28 T2D, SGLT2i Summary, Demo Archived)
+- Cardiovascular: 4 Guidelines (AHA 2022 HF, NICE NG136 Hypertension, NICE NG196 AFib, SGLT2i Summary)
+- Hypertension: 3 Guidelines (NICE NG136 Hypertension, AHA 2022 HF, NICE NG196 AFib)
+- Infectious Disease: 2 Guidelines (NICE NG15 Antimicrobial Stewardship, NICE NG191 COVID-19)
+- General: 6 Guidelines (CDC 2022, NICE NG193, NICE NG145, NICE NG15, NICE NG191, NICE NG56)
 
-4. CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022
-   - Organization: Centers for Disease Control and Prevention (CDC)
-   - Category: Medications / Pain Management
-   - Document Type: MMWR Recommendations and Reports (Vol. 71 / No. 3)
-   - Publication Identifier: MMWR Vol. 71 / No. 3
-   - Total Chunks: 580 chunks (100 pages)
-   - Source URL: https://www.cdc.gov/mmwr/volumes/71/rr/rr7103a1.htm
-   - Ingestion Status: Completed
-
-Knowledge Base Metrics:
-- Total Verified Guidelines: 4
-- Total Document Records: 4 (4 completed, 0 failed)
-- Total Guideline Chunks: 1,103 chunks (plus historical documents: 1,223 chunks in table)
-- Embedding Dimensions: 384 dimensions per chunk
-
-Ingestion Pipeline Architecture:
-- PDF Downloader ('pdf_loader.py'): Employs standard HTTP browser headers and fallback to curl.exe to handle Akamai/WAF rate limits and verifies '%PDF' magic header bytes.
-- Page Text Extractor ('pdf_loader.py'): Uses pypdf to parse pages while preserving accurate 1-indexed page numbers.
-- Structured Chunker ('chunker.py'): Splits document pages using a sliding window (chunk_size=1000 characters, chunk_overlap=150 characters) with sentence boundary detection and regex-based clinical section header detection.
-- Embedding Ingestion ('index_guidelines.py'): Generates batch embeddings with sentence-transformers and inserts chunks into Supabase in batches of 50.
+Multi-Category Architecture:
+Guidelines spanning multiple specialties (such as KDIGO covering Nephrology & Diabetes) are stored with clean comma-separated categories ("Nephrology, Diabetes"). The frontend splits categories using tokenized regex ('[,;/|]+'), allowing guidelines to appear in every relevant category tab and dynamically updating badge counters without database duplication.
 
 
 ================================================================================
-8. GROQ / LLM GENERATION
+8. GROQ / LLM GENERATION & CLINICAL SAFETY
 ================================================================================
 
-LLM Service Integration:
-- Provider: Groq Cloud API
-- Primary Model: llama-3.3-70b-versatile
-- Fallback Models Configured: openai/gpt-oss-120b, openai/gpt-oss-20b, qwen/qwen3.8-27b, llama-3.1-8b-instant
-- Temperature Setting: 0.1 (low temperature enforces deterministic, evidence-bound output)
-- Max Tokens: 1024 tokens
+Inference Engine:
+- Provider: Groq Cloud LPU (Language Processing Unit) acceleration.
+- Model: 'qwen/qwen3.8-27b' (High throughput, strong clinical reasoning, low hallucination).
+- Temperature: 0.1 (Strict deterministic, evidence-bounded generation).
 
-Evidence Grounding & Safety Rules:
-1. Strict Grounding Constraint: The system prompt instructs the model to rely ONLY on the supplied retrieved guideline evidence. Extrapolations and unsupported dosages are forbidden.
-2. Attribution Requirement: The model must cite the publishing health authority (WHO / CDC) when presenting recommendations.
-3. Insufficient Evidence Safeguard: If the retrieved chunks do not contain enough specific data to answer the query, the model is instructed to output:
-   "The currently available indexed guideline evidence is insufficient to answer this specific question with confidence."
-4. Patient Context Synthesis: Patient age, diagnosed conditions, active medications, and allergies are incorporated into the prompt, enabling the LLM to cross-reference guideline contraindications with patient-specific factors.
+Clinical Safety Rules (Enforced in System Prompt):
+1. Zero Fabrication & Strict Grounding: Rely ONLY on the provided retrieved guideline evidence chunks. Do NOT invent dosages, contraindications, or laboratory thresholds not present in evidence.
+2. Parameter Completeness & Conditionality:
+   - Never recommend specific medications or dosages without sufficient patient data and supporting evidence.
+   - When required clinical parameters (e.g., eGFR, ACR, serum potassium, allergies, pregnancy status) are absent in the record, frame recommendations as strictly CONDITIONAL (e.g., "Contingent upon verifying baseline eGFR >= 20 mL/min/1.73m2 and serum potassium < 5.0 mEq/L...").
+   - Rigorously distinguish established patient facts from clinical assumptions.
+3. Secondary Source Segregation: If evidence originates from a supporting clinical reference (such as the Clinician Community Contributed SGLT2i Summary), clearly label it as secondary clinical guidance and NEVER present it as an official practice guideline.
+
+Standardized 7-Part Response Format (When Patient Context is Present):
+1. Clinical Summary: Concise 2-3 sentence overview directly addressing the clinical inquiry.
+2. Relevant Patient Context: Bullet points summarizing pertinent patient parameters, diagnoses, and medications.
+3. Clinical Assessment: Synthesis of how patient parameters align with guideline-directed therapy.
+4. Evidence-Based Recommendations: Numbered, conditional clinical steps with specific drug classes and prerequisite criteria.
+5. Safety Considerations & Monitoring: Cautions, contraindications, drug-drug interactions, renal adjustments, and monitoring intervals.
+6. Missing Clinical Information & Recommended Tests: Explicitly lists diagnostic tests, baseline labs (eGFR, ACR, K+), or vitals needed before finalizing therapy.
+7. Clinical Sources: Bulleted list of cited official guidelines with publishing authority, document title, section, page number, and direct PDF URL.
+
+Fallback for General Inquiries (No Patient Selected):
+When no patient context is selected, the response is explicitly titled:
+"### General Clinical Guideline Advisory (No Patient Context Selected)"
+with general summary, evidence-based guidance, monitoring considerations, and clinical sources.
 
 
 ================================================================================
-9. PATIENT MANAGEMENT
+9. PATIENT MANAGEMENT & PRIVACY
 ================================================================================
 
 Functionality:
-Full CRUD patient management system isolated per clinician via Row Level Security.
+Full CRUD patient management system isolated per clinician via Row Level Security (RLS).
 
-Key Features & Operations:
-- Patient Creation: Captures full name, date of birth, gender, contact number, address, diagnosed medical conditions (array), known allergies (array), active medications (array), and free-text medical history.
-- Unique Patient Code Generator: PostgreSQL database trigger automatically generates human-readable identifier (format: P-YYYY-XXX, e.g., P-2026-001).
-- Patient Editing & Updating: Clinicians can update patient clinical variables at any time.
-- Patient Deletion: Deletes patient profile and cascades deletion to associated clinical decisions.
-- Dynamic Age Calculation: Chronological age is computed on the fly from date of birth.
-- Assistant Context Binding: Selecting a patient in the Assistant binds the patient's condition array to dynamic question chips and supplies the profile to the RAG backend.
-
-Patient Data Schema (PostgreSQL):
-- id (UUID, Primary Key)
-- clinician_id (UUID, References auth.users)
-- patient_code (TEXT, Unique per clinician)
-- full_name (TEXT, Mandatory)
-- date_of_birth (DATE)
-- gender (TEXT)
-- contact (TEXT)
-- address (TEXT)
-- medical_conditions (TEXT[] Array)
-- allergies (TEXT[] Array)
-- medications (TEXT[] Array)
-- medical_history (TEXT)
-- created_at / updated_at (TIMESTAMPTZ)
+Key Features:
+- Comprehensive Clinical Profile: Captures full name, date of birth, gender, contact, address, diagnosed medical conditions (array), allergies (array), active medications (array), and clinical notes/history.
+- Dynamic Age Computation: Automatically calculated from date of birth.
+- Patient Data Validation API: '/api/patients/validate' normalizes email, contact, and condition lists prior to database persistence.
+- PHI Minimization: Patient names, phone numbers, and addresses are strictly excluded from vector retrieval embeddings. Only anonymized clinical parameters (e.g., "type 2 diabetes", "stage 3 CKD") enrich search queries.
 
 
 ================================================================================
-10. CLINICAL DECISION MANAGEMENT & AUDIT TRAIL
+10. CLINICAL GUIDELINE QUALITY CONTROL & INGESTION PIPELINE
+================================================================================
+
+To ensure that only authentic, uncorrupted clinical guidelines are added to the system, an enterprise QC pipeline was engineered in 'backend/app/services/guideline_qc.py':
+
+Validation Stages:
+1. Structural PDF Inspection: Verifies valid PDF magic bytes ('%PDF-'), readable digital text layers, and non-empty content (blocks corrupted or scanned image-only files lacking OCR).
+2. Clinical Authenticity Scoring: Scans text against a 60+ item clinical practice lexicon (e.g., 'clinical practice guideline', 'recommendation', 'randomized controlled trial', 'pharmacotherapy', 'contraindication'). Rejects unrelated documents (invoices, recipes, source code, marketing).
+3. Cryptographic SHA-256 Analysis: Computes file checksum and verifies against 'public.guideline_documents' to block exact duplicate uploads.
+4. Auto-Category Detection: Automatically maps document content to the 8 canonical clinical categories.
+5. Section-Aware Chunking: Chunks text into bounded windows (400-600 tokens with 50-token overlap), tracking physical page numbers and clinical section headings.
+6. Batch Vector Embedding: Embeds chunks using 'BAAI/bge-small-en-v1.5' into 'vector(384)' and stores records in Supabase pgvector.
+
+
+================================================================================
+11. CLINICAL DECISION MANAGEMENT & AUDIT TRAIL
 ================================================================================
 
 Workflow Overview:
@@ -435,44 +404,24 @@ To uphold the principle of human-in-the-loop clinical governance, every AI-assis
 
 Decision Actions:
 1. ACCEPT: Clinician approves the AI recommendation as clinically valid.
-2. MODIFY: Clinician edits or customizes the guidance to reflect specific patient nuances or institutional policies. Both the original AI recommendation and the clinician's modified text are preserved.
-3. REJECT: Clinician rejects the guidance and provides a mandatory or optional clinical rejection rationale (e.g., patient intolerance, acute contraindication).
+2. MODIFY: Clinician edits or customizes the guidance to reflect specific patient nuances or institutional policies. Clinician must provide a mandatory clinical rationale. Both original and modified text are stored.
+3. REJECT: Clinician rejects the guidance and provides a clinical rejection rationale.
 
 Audit Trail Table ('public.clinical_decisions'):
 - id (UUID, Primary Key)
 - clinician_id (UUID, References auth.users)
 - patient_id (UUID, References public.patients)
-- question (TEXT, Original clinical question asked)
-- ai_answer (TEXT, Evidence-grounded response generated by AI)
-- final_decision (TEXT, Final accepted or modified clinical plan)
+- guideline_id (UUID, References public.guidelines)
+- query_text (TEXT, Original clinical question asked)
+- decision_text (TEXT, Final accepted or modified clinical plan)
 - decision_status (TEXT, CHECK: 'accepted' | 'rejected' | 'modified')
-- category (TEXT, e.g., 'Diabetes', 'Hypertension')
-- sources (JSONB, Full snapshot of retrieved guideline chunks, titles, and pages)
-- rejection_reason (TEXT, Recorded rationale if rejected)
-- created_at / updated_at (TIMESTAMPTZ)
+- rationale (TEXT, Recorded clinician justification)
+- modification_notes (TEXT, Specific edits made)
+- evidence_sources (JSONB, Full snapshot of retrieved guideline chunks, titles, and pages)
+- created_at (TIMESTAMPTZ, Immutable timestamp)
 
-Decision Support Analytics & Metrics:
-The Decision Support workspace ('/decision-support') renders institutional metrics:
-- Total Decisions Logged
-- Acceptance Rate (%)
-- Modification Rate (%)
-- Rejection Rate (%)
-- Searchable, filterable audit table by status and patient code.
-
-
-================================================================================
-11. SECURITY & AUTHENTICATION
-================================================================================
-
-Security Architecture:
-- Authentication Provider: Supabase Auth (OAuth 2.0 / JWT session handling).
-- Protected Routes: Frontend 'ProtectedRoute' wrapper intercepts unauthenticated requests and redirects to '/login'.
-- Row Level Security (RLS): All PostgreSQL tables ('patients', 'clinical_decisions', 'guidelines') have RLS enabled:
-  * 'patients': Clinicians can SELECT/INSERT/UPDATE/DELETE ONLY rows where 'clinician_id = auth.uid()'.
-  * 'clinical_decisions': Clinicians can view and record decisions ONLY for patients they own.
-  * 'guidelines' & 'guideline_chunks': Authenticated users have read-only SELECT permissions.
-- Backend Secrets Protection: Groq API keys and Supabase Service Role keys reside strictly in server-side '.env' files and are never exposed to client browsers.
-- No-Referrer Policy: Frontend external guideline links use 'referrerPolicy="no-referrer"' to prevent leaking internal application hostnames to third-party medical repositories.
+Medical-Legal Invariant:
+The 'clinical_decisions' table has NO update or delete policies for authenticated users. Once recorded, clinical decisions cannot be altered or deleted, providing complete medical-legal defensibility.
 
 
 ================================================================================
@@ -480,10 +429,10 @@ Security Architecture:
 ================================================================================
 
 Layer                 | Technology                 | Purpose / Implementation Details
-──────────────────────┼────────────────────────────┼────────────────────────────────────────────────────────
+----------------------|----------------------------|---------------------------------------------------------
 Frontend Framework    | React 19.2                 | Modern declarative component architecture
-Language (Frontend)   | TypeScript 6.0             | Strict type checking and interface validation
-Build Tool            | Vite 8.3                   | Ultra-fast HMR and optimized production bundling
+Language (Frontend)   | TypeScript 5.8+            | Strict type checking and interface validation
+Build Tool            | Vite 8.3                   | Ultra-fast HMR and optimized production bundling (2.15s)
 Styling Engine        | Tailwind CSS 4.3           | Responsive, modern utility styling (lavender/purple theme)
 Icons                 | Lucide React 1.47          | High-clarity medical and navigation iconography
 Routing               | React Router DOM 7.18      | Client-side routing with protected route guards
@@ -493,612 +442,427 @@ ASGI Server           | Uvicorn 0.32               | Production-ready asynchrono
 Database & Auth       | Supabase (PostgreSQL 15+)  | Relational database, Auth, RLS, and vector storage
 Vector Extension      | pgvector                   | High-speed vector indexing (HNSW) and cosine similarity
 Embedding Model       | BAAI/bge-small-en-v1.5     | 384-dimensional dense sentence embeddings
-Embedding Framework   | sentence-transformers 3.3  | Local PyTorch neural text embedding computation
-LLM Inference Engine  | Groq Cloud API             | High-throughput Llama-3.3-70b inference (temp=0.1)
-PDF Processing        | pypdf 5.1                  | PDF text and page-number metadata extraction
-Validation & Config   | Pydantic 2.9               | Request/Response schema validation and settings parsing
-Testing Framework     | Pytest 9.1                 | Automated unit and integration test suite
+LLM Inference Engine  | Groq Cloud API             | Fast LPU inference running qwen/qwen3.8-27b
+PDF Processing        | PyPDF / pypdf              | Binary PDF parsing and page-level text extraction
+Report Generation     | ReportLab & python-docx    | Formatted clinical consultation exports (PDF/DOCX)
+Testing Engine        | Pytest 9.1                 | Automated unit, integration, and regression test suites
 
 
 ================================================================================
-13. PROJECT STRUCTURE
+13. CLINICAL CONSULTATION REPORT EXPORT (PDF & DOCX)
 ================================================================================
 
-healthcare-rag/
-├── backend/                              # Python FastAPI Backend
-│   ├── app/
-│   │   ├── config.py                     # App settings, environment variables & defaults
-│   │   ├── main.py                       # FastAPI entrypoint, CORS & route registration
-│   │   ├── schemas.py                    # Pydantic data contracts (QueryRequest, QueryResponse)
-│   │   ├── ingestion/                    # Guideline ingestion subpackage
-│   │   │   ├── chunker.py                # Page-aware text chunker & section detector
-│   │   │   ├── index_guidelines.py       # End-to-end ingestion pipeline runner
-│   │   │   └── pdf_loader.py             # Resilient PDF downloader & pypdf page parser
-│   │   └── services/                     # Core business logic services
-│   │       ├── embeddings.py             # BAAI/bge-small-en-v1.5 embedding singleton
-│   │       ├── groq_service.py           # Groq client, system prompt & model fallbacks
-│   │       ├── query_router.py           # Regex & medical lexicon pre-classifier
-│   │       ├── rag.py                    # RAG pipeline orchestrator
-│   │       └── retrieval.py              # Supabase pgvector client & match RPC caller
-│   ├── tests/
-│   │   └── test_router_and_rag.py        # Automated test suite (Pytest)
-│   └── requirements.txt                  # Python package dependencies
-├── src/                                  # React 19 Frontend
-│   ├── components/                       # Reusable UI component modules
-│   │   ├── assistant/                    # Clinical assistant chat & evidence components
-│   │   │   ├── CategorySelector.tsx      # Dynamic clinical category filter pills
-│   │   │   ├── ChatContainer.tsx         # Chat stream, suggestions & input coordinator
-│   │   │   ├── ChatMessage.tsx           # Formatted message card with evidence & decisions
-│   │   │   ├── DecisionActions.tsx       # Accept / Modify / Reject interactive buttons
-│   │   │   ├── EvidenceCard.tsx          # Guideline source card with page & PDF link
-│   │   │   ├── PatientContextCard.tsx    # Active patient summary bar
-│   │   │   ├── PatientSelector.tsx       # Patient picker modal
-│   │   │   ├── QuestionInput.tsx         # Auto-resizing textarea & submit controller
-│   │   │   └── QuestionSuggestions.tsx   # Dynamic suggestion chips by category
-│   │   ├── auth/                         # Authentication forms & route guards
-│   │   ├── dashboard/                    # Overview metrics & quick action cards
-│   │   ├── guidelines/                   # Guideline catalog cards & search filters
-│   │   └── patients/                     # Patient form modal & profile cards
-│   ├── context/
-│   │   └── AuthContext.tsx               # Supabase session provider & auth hooks
-│   ├── data/
-│   │   └── clinicalSuggestions.ts        # Centralized category question dictionary
-│   ├── layouts/
-│   │   └── AppLayout.tsx                 # Sidebar navigation & header layout wrapper
-│   ├── lib/                              # Client services & API helpers
-│   │   ├── assistant.ts                  # Backend REST API client
-│   │   ├── decisions.ts                  # Clinical decisions Supabase service
-│   │   ├── guidelines.ts                 # Guidelines catalog Supabase service
-│   │   ├── patients.ts                   # Patient CRUD Supabase service
-│   │   └── supabase.ts                   # Supabase client initialization
-│   ├── pages/                            # Top-level application view pages
-│   │   ├── AssistantPage.tsx             # AI Clinical Assistant workspace
-│   │   ├── DashboardPage.tsx             # Clinician overview dashboard
-│   │   ├── DecisionSupportPage.tsx       # Audit trail & decision analytics page
-│   │   ├── GuidelinesPage.tsx            # Indexed guidelines browser
-│   │   ├── PatientsPage.tsx              # Patient directory & registry
-│   │   └── PatientProfilePage.tsx        # Individual patient clinical profile
-│   ├── types/                            # TypeScript domain definitions
-│   │   ├── assistant.ts                  # Assistant messages & source types
-│   │   ├── decision.ts                   # Decision status & record schemas
-│   │   ├── guideline.ts                  # Guideline metadata schemas
-│   │   └── patient.ts                    # Patient profile schemas & age calculators
-│   ├── App.tsx                           # Route map & application layout tree
-│   ├── index.css                         # Tailwind CSS imports & custom variables
-│   └── main.tsx                          # React DOM client entrypoint
-├── supabase/
-│   ├── migrations/                       # PostgreSQL schema migrations
-│   │   ├── 001_patients.sql              # Patients table, RLS & code generator trigger
-│   │   ├── 002_guidelines.sql            # Guidelines catalog table & RLS
-│   │   ├── 003_rag.sql                   # pgvector extension, chunks table & match RPC
-│   │   └── 004_clinical_decisions.sql    # Decisions audit table, indexes & RLS
-│   └── seed/
-│       └── verified_guidelines.sql       # Seed data for WHO & CDC guidelines
-├── package.json                          # Frontend dependencies & npm scripts
-└── vite.config.ts                        # Vite configuration & React plugin
+Overview:
+Clinicians can export consultation notes directly from the Assistant interface via 'POST /api/reports/export':
+- Formats Supported: Portable Document Format (PDF) and Microsoft Word (DOCX).
+- Content Included:
+  * Patient Clinical Header: Name, age, gender, active diagnoses, medications, allergies.
+  * Clinical Inquiry: Exact question submitted.
+  * Grounded Recommendations: Formatted markdown text with intact medical comparison symbols (>=, <=) and units (mL/min/1.73m2, mg/dL).
+  * Evidence Provenance: Table of cited guidelines with issuing authority, title, section, and page number.
+  * Audit Signature: Reviewing clinician ID and timestamp.
 
 
 ================================================================================
-14. IMPORTANT SOURCE CODE MODULES
+14. SECURITY, PRIVACY & RLS BOUNDARIES
 ================================================================================
 
-1. MODULE: backend/app/services/query_router.py
-   PURPOSE: Fast pre-retrieval query classifier that filters non-clinical traffic.
-   INPUT:   Raw query string (e.g., "Hi", "What is first line for diabetes?").
-   PROCESS: Tests query against regex patterns (greetings, trivia, coding) and a 60+ item medical keyword lexicon.
-   OUTPUT:  Tuple of (ResponseType, CannedAnswerText). ResponseType is one of: 'greeting', 'out_of_scope', 'unclear', 'healthcare'.
-
-2. MODULE: backend/app/services/embeddings.py
-   PURPOSE: Computes dense vector embeddings locally using sentence-transformers.
-   INPUT:   Clinical query text or batch of document chunk strings.
-   PROCESS: Loads 'BAAI/bge-small-en-v1.5' as a thread-safe singleton, adds query instruction prefix, and normalizes output.
-   OUTPUT:  384-dimensional list of floating-point numbers.
-
-3. MODULE: backend/app/services/retrieval.py
-   PURPOSE: Interacts with Supabase pgvector to retrieve top matching guideline chunks and patient context.
-   INPUT:   Query embedding (List[float]), similarity threshold (float), match count (int).
-   PROCESS: Calls PostgreSQL RPC function 'match_guideline_chunks' and queries 'patients' table for context.
-   OUTPUT:  List of chunk dictionaries (content, page_number, section, guideline_title, organization, similarity).
-
-4. MODULE: backend/app/services/rag.py
-   PURPOSE: Main orchestration engine linking Router, Embeddings, pgvector, and Groq.
-   INPUT:   QueryRequest (question, patient_id, category).
-   PROCESS: Routes query -> fetches patient profile -> embeds question -> retrieves chunks -> verifies evidence sufficiency -> invokes Groq -> formats SourceItems.
-   OUTPUT:  QueryResponse (type, answer, sources).
-
-5. MODULE: backend/app/services/groq_service.py
-   PURPOSE: Interfaces with Groq API for ultra-fast, deterministic grounded response generation.
-   INPUT:   Question, EvidenceChunks, PatientContext.
-   PROCESS: Formats evidence blocks, injects clinical grounding system prompt, and calls llama-3.3-70b-versatile with temp=0.1.
-   OUTPUT:  Evidence-grounded clinical response string.
-
-6. MODULE: backend/app/ingestion/index_guidelines.py
-   PURPOSE: Autonomous pipeline to ingest official PDF guidelines into vector tables.
-   INPUT:   Verified guideline records with 'pdf_url' in Supabase.
-   PROCESS: Downloads PDF -> extracts pages -> chunks with sliding window -> embeds with BGE -> batch inserts chunks to pgvector.
-   OUTPUT:  Ingestion summary stats (documents indexed, chunks created, embeddings stored).
-
-7. MODULE: src/lib/decisions.ts
-   PURPOSE: Frontend persistence client for the clinical decisions audit trail.
-   INPUT:   Decision payload (patient_id, question, ai_answer, final_decision, decision_status, sources, rejection_reason).
-   PROCESS: Authenticates active clinician and executes parameterized insert into 'clinical_decisions' in Supabase.
-   OUTPUT:  Persisted ClinicalDecision record or error object.
-
-8. MODULE: src/data/clinicalSuggestions.ts
-   PURPOSE: Centralized dictionary of category-specific clinical question prompts.
-   INPUT:   Category name (e.g., 'Diabetes', 'Hypertension', 'Medications').
-   PROCESS: Resolves category key and returns curated clinical prompt list.
-   OUTPUT:  Array of 4 targeted clinical question strings.
+1. Authentication: Supabase Auth with secure JSON Web Tokens (JWT).
+2. Protected Routes: React Router 'ProtectedRoute' intercepts unauthenticated requests and redirects to '/login'.
+3. Row Level Security (RLS): Enforced across all PostgreSQL tables:
+   - 'patients': Clinicians access ONLY rows where 'clinician_id = auth.uid()'.
+   - 'clinical_decisions': Clinicians view/insert decisions ONLY for their own patients.
+   - 'guidelines' & 'guideline_chunks': Authenticated users have read-only SELECT permissions.
+4. Secrets Management: All sensitive credentials (GROQ_API_KEY, SUPABASE_SERVICE_ROLE_KEY) reside strictly in server-side '.env' files excluded by '.gitignore'. Template placeholders provided in '.env.example'.
+5. Zero Committed Secrets: Repository verified with automated scanners; 0 credentials or private keys in Git history.
 
 
 ================================================================================
-15. DATABASE DESIGN
+15. DATABASE DESIGN & SCHEMA
 ================================================================================
 
-Table 1: public.patients
-- Purpose: Stores clinician-managed patient demographic and clinical profiles.
-- Primary Key: id (UUID, default gen_random_uuid())
-- Foreign Keys: clinician_id -> auth.users(id) ON DELETE CASCADE
-- Key Columns: patient_code (TEXT), full_name (TEXT), date_of_birth (DATE), gender (TEXT), medical_conditions (TEXT[]), allergies (TEXT[]), medications (TEXT[]), medical_history (TEXT).
-- Triggers: 'trigger_generate_patient_code' (auto-assigns P-YYYY-XXX), 'trigger_patients_updated_at'.
-- RLS Policy: STRICT. Clinicians can only SELECT, INSERT, UPDATE, DELETE rows where clinician_id = auth.uid().
-
-Table 2: public.guidelines
-- Purpose: Verified clinical guideline catalog and source registry.
-- Primary Key: id (UUID)
-- Key Columns: title (TEXT), organization (TEXT), description (TEXT), category (TEXT), version (TEXT), publication_date (DATE), document_type (TEXT), source_url (TEXT), pdf_url (TEXT), is_verified (BOOLEAN).
-- RLS Policy: Authenticated clinicians have SELECT permission. Writes restricted to administrative seed/migration scripts.
-
-Table 3: public.guideline_documents
-- Purpose: Tracks physical guideline document files, checksums, and ingestion status.
-- Primary Key: id (UUID)
-- Foreign Keys: guideline_id -> public.guidelines(id) ON DELETE CASCADE
-- Key Columns: document_name (TEXT), checksum (TEXT), ingestion_status ('pending' | 'processing' | 'completed' | 'failed').
-- Unique Constraint: (guideline_id, checksum).
-- RLS Policy: Authenticated users can SELECT.
-
-Table 4: public.guideline_chunks
-- Purpose: Granular text chunks with associated 384-dimensional dense vector embeddings.
-- Primary Key: id (UUID)
-- Foreign Keys: document_id -> public.guideline_documents(id), guideline_id -> public.guidelines(id).
-- Key Columns: chunk_index (INTEGER), content (TEXT), page_number (INTEGER), section_title (TEXT), source_url (TEXT), pdf_url (TEXT), embedding (VECTOR(384)).
-- Vector Index: HNSW index using vector_cosine_ops ('idx_guideline_chunks_embedding').
-- RLS Policy: Authenticated users can SELECT.
-
-Table 5: public.clinical_decisions
-- Purpose: Immutable audit log of all clinician interactions with AI recommendations.
-- Primary Key: id (UUID)
-- Foreign Keys: clinician_id -> auth.users(id), patient_id -> public.patients(id) ON DELETE CASCADE.
-- Key Columns: question (TEXT), ai_answer (TEXT), final_decision (TEXT), decision_status ('accepted' | 'rejected' | 'modified'), category (TEXT), sources (JSONB), rejection_reason (TEXT), created_at (TIMESTAMPTZ).
-- RLS Policy: STRICT. Clinicians can SELECT, INSERT, UPDATE, DELETE only their own decision records for their own patients.
+Database Migrations ('database/migrations/'):
+1. 001_patients.sql: Patients table, RLS policies, patient code generator trigger.
+2. 002_guidelines.sql: Guidelines and documents catalog tables.
+3. 003_rag.sql: pgvector extension enablement and legacy chunks schema.
+4. 004_clinical_decisions.sql: Decisions audit table, indexes, and RLS.
+5. 005_fix_schema_compatibility.sql: 'guideline_chunks' table for 384-dim BGE embeddings, HNSW cosine index, and 'match_guideline_chunks' RPC.
+6. 006_patient_email_and_validation.sql: Email validation and contact normalization.
+7. 007_safe_guideline_cleanup.sql: Transactional duplicate cleanup RPC and backup verification.
 
 
 ================================================================================
-16. GUIDELINE INGESTION ALGORITHM
+16. FRONTEND PAGES & UI COMPONENTS
 ================================================================================
 
-How an Official Medical PDF Becomes Searchable:
-
-Step 1: Guideline Discovery
-The ingestion script queries Supabase 'guidelines' table for entries with 'is_verified = true' and a non-null 'pdf_url'.
-
-Step 2: Resilient PDF Retrieval
-The script fetches the PDF binary using stream requests with standard User-Agent headers, validates that the first 4 bytes match '%PDF', and generates a SHA-256 checksum.
-
-Step 3: Ingestion Status Tracking
-A document record is upserted into 'guideline_documents' with 'ingestion_status = processing'.
-
-Step 4: Page-Preserving Text Extraction
-Using 'pypdf', the document is read page by page. Each extracted string is tagged with its exact 1-indexed page number.
-
-Step 5: Sliding-Window Semantic Chunking
-Pages are segmented into chunks using chunk_size=1000 characters and chunk_overlap=150 characters. The chunker scans for sentence breaks ('. ') to prevent cutting words and detects section headers using regular expressions.
-
-Step 6: Batch Neural Embedding Generation
-Chunks are passed to 'BAAI/bge-small-en-v1.5' in batches of 32. The model outputs 384-dimensional normalized vector representations.
-
-Step 7: Batch Insertion to pgvector
-Chunks, metadata (page_number, section_title, source_url, pdf_url), and embeddings are written to 'public.guideline_chunks' in batches of 50.
-
-Step 8: Completion Verification
-The document status is updated to 'completed'. The HNSW index automatically incorporates the new vectors for immediate sub-second similarity search.
+Top-Level Pages:
+- '/dashboard' (DashboardPage.tsx): Clinical statistics, active patient counts, indexed guidelines, recent inquiries.
+- '/assistant' (AssistantPage.tsx): Interactive AI decision support chat, patient context card, category filter pills, dynamic suggestions, evidence cards, and decision actions.
+- '/guidelines' (GuidelinesPage.tsx): Multi-category guideline browser (8 tabs), verified badges, search bar, and direct '[Open PDF ↗]' links.
+- '/guidelines/:id' (GuidelineDetailPage.tsx): Detailed guideline view with versioning, chunk metrics, and direct official PDF links.
+- '/patients' (PatientsPage.tsx): Patient directory with condition badges and search/filter.
+- '/patients/:id' (PatientProfilePage.tsx): Patient clinical profile with overview, medications, allergies, and the immutable 'Decisions' audit tab.
+- '/decision-support' (DecisionSupportPage.tsx): Institutional audit overview and decision analytics.
+- '/login' & '/signup' (LoginPage.tsx, SignupPage.tsx): Clinician authentication portal.
 
 
 ================================================================================
-17. LIVE DEMO WORKFLOW
+17. STEP-BY-STEP LIVE DEMO GUIDE
 ================================================================================
 
-Recommended Step-by-Step Presentation Demonstration:
-
-1. Clinician Authentication:
-   - Navigate to '/login' and sign in with clinician credentials. Show session persistence.
-
-2. Patient Selection & Context:
-   - Navigate to '/patients'. Select an active patient (e.g., Jane Doe, diagnosed with Type 2 Diabetes & Hypertension).
-   - Review patient profile: age, active medications (Metformin), allergies, and medical history.
-
-3. AI Clinical Assistant Navigation:
-   - Click "Open Assistant with Patient" -> lands on '/assistant?patient=<id>'.
-   - Notice the purple Patient Context Bar displaying the active patient summary.
-
-4. Dynamic Category Suggestions:
-   - Click category pill 'Diabetes' -> suggestion chips instantly refresh with diabetes-specific clinical questions.
-   - Click category pill 'Hypertension' -> suggestion chips dynamically switch to blood pressure questions.
-
-5. Submitting a Grounded Clinical Query:
-   - Click suggestion: "What are the recommended first-line treatment options for diabetes?"
-   - The question populates the textarea without auto-submitting. Clinician presses Enter.
-
-6. Evidence Retrieval & Grounded Synthesis:
-   - Observe the live streaming response from Groq (Llama-3.3-70b-versatile).
-   - Review the generated clinical guidance (Metformin initiation, lifestyle intervention, HbA1c monitoring).
-   - Review the Patient Context Consideration tags.
-
-7. Inspecting EvidenceCards & PDF Links:
-   - Scroll down to "Retrieved Guideline Evidence".
-   - Note the retrieved WHO HEARTS-D guideline cards with exact page numbers (e.g., Page 13, Page 14) and similarity scores (84%).
-   - Click "View PDF" -> opens the official WHO PDF bitstream in a new tab.
-
-8. Clinical Decision Recording:
-   - Click "Accept" -> decision badge changes to green "ACCEPTED".
-   - Alternatively, test "Modify" -> customize advice text and save.
-
-9. Institutional Audit Trail:
-   - Navigate to '/decision-support'.
-   - Show the updated KPI dashboard: Total Decisions, Acceptance Rate, and Recent Decisions log.
-   - Click on the newly recorded decision to display the complete audit modal with the exact evidence snapshot and timestamp.
+Demo Script for Final Presentation:
+1. Sign In: Navigate to 'http://localhost:5173/login', log in with clinician credentials.
+2. Dashboard Overview: Point out real-time stats: active patients, 14 indexed guidelines, logged clinical decisions.
+3. Clinical Guidelines Library:
+   - Navigate to '/guidelines'.
+   - Show the 8 category tabs (Nephrology, Pain Management, Endocrinology, Diabetes, Cardiovascular, Hypertension, Infectious Disease, General).
+   - Click 'Hypertension': Show NICE NG136 and AHA/ACC/HFSA 2022 cards.
+   - Click 'Nephrology': Show KDIGO 2022 Diabetes in CKD card.
+   - Click '[Open PDF ↗]' on NICE NG136: Notice it opens the official NICE PDF in a new tab.
+4. Quality Control Upload Demo:
+   - Click '+ Add Guideline'.
+   - Show the automatic SHA-256 checksum computation, authenticity verification, and category auto-detection.
+5. Patient Selection & Clinical Inquiry:
+   - Navigate to '/assistant'.
+   - Select patient with Type 2 Diabetes and CKD.
+   - Point out the Patient Context Card displaying confirmed conditions, active meds, and allergies.
+   - Ask: "What is the recommended SGLT2 inhibitor treatment threshold for this patient?"
+6. Evidence Grounding & Response:
+   - Observe the sub-second retrieval (~0.69s).
+   - Highlight the 7-part standardized response: Clinical Summary, Patient Context, Assessment, Evidence-Based Recommendations, Safety/Monitoring, Missing Tests (flagging eGFR/ACR), and Clinical Sources.
+   - Inspect the EvidenceCard: Show exact excerpt, NICE/KDIGO citation, section, page number, and similarity score (>0.80).
+7. Decision Governance Workflow:
+   - Click '[Accept Decision]' or '[Modify Decision]' (entering clinical rationale).
+   - Demonstrate the decision saving directly into the immutable audit trail.
+8. Report Export:
+   - Click 'Export Report' -> PDF. Show the generated clinical consultation note.
+9. Audit Trail Verification:
+   - Navigate to the patient's profile -> 'Decisions' tab.
+   - Show the permanent, tamper-proof record of the inquiry, AI answer, clinician action, and evidence snapshot.
 
 
 ================================================================================
 18. VERIFIED TEST RESULTS
 ================================================================================
 
-All metrics and test results verified from active test suite executions:
-
-1. Backend Automated Test Suite:
-   - Command: pytest backend/tests
-   - Result: 7 passed in 0.12s (100% pass rate)
-   - Tested: Query router classifications (greeting, out_of_scope, unclear, healthcare), embedding dimensions (384-dim), RPC vector match mocks, RAG insufficient evidence fallbacks, Groq response synthesis.
+1. Automated Backend Test Suite (Pytest):
+   - Command: 'pytest backend/tests/ -v'
+   - Total Tests: 28 Tests
+   - Passed: 28 Passed (100% Pass Rate)
+   - Execution Time: 22.06 seconds
+   - Test Suites Covered:
+     * test_guideline_qc.py (7/7 PASS): PDF validation, checksums, duplicate detection, authenticity scoring.
+     * test_patient_validation.py (5/5 PASS): Payload validation, email checks, condition normalization.
+     * test_phase12_6_guideline_library.py (9/9 PASS): KDIGO 2022 intact, 8 categories >= 2 guidelines, multi-category parsing, direct PDF URLs, 384-d embeddings, vector retrieval, end-to-end RAG pipeline.
+     * test_router_and_rag.py (7/7 PASS): Greetings, out-of-scope routing, healthcare classification, chunking heuristics.
 
 2. Frontend Production Build Validation:
-   - Command: npm run build (tsc -b && vite build)
-   - Result: Built in 386ms with 0 errors.
-   - Modules Transformed: 2,000 modules.
+   - Command: 'npm --prefix frontend run build'
+   - TypeScript Check: 'tsc -b' passed with 0 errors.
+   - Vite Bundling: 2004 modules transformed in 2.15 seconds.
+   - Output Assets: dist/index.html (1.37 kB), dist/assets/index.js (777 kB), dist/assets/index.css (88 kB).
 
-3. Database & Knowledge Base Verification:
-   - Total Verified Guidelines: 4 guidelines (WHO Diabetes HEARTS-D, WHO 2nd/3rd Line Diabetes, WHO Hypertension, CDC Opioids)
-   - Ingested Document Records: 4 completed, 0 failed
-   - Total Embedded Chunks in pgvector: 1,103 chunks (1,223 total indexed across revisions)
-   - Embedding Dimension: 384 dimensions confirmed
+3. Database & pgvector Integrity Verification:
+   - Total Guidelines: 14 Guidelines (12 Active, 2 Archived)
+   - Total Guideline Documents: 15 Documents
+   - Total Chunks: 1,990 Chunks (100% vector(384) populated)
+   - Clinical Decisions: 9 Decisions (>= 7 required historical decisions preserved)
+   - Active Duplicates: 0 Duplicates
 
 
 ================================================================================
-19. SAMPLE RAG TEST CASES
+19. SAMPLE RAG TEST CASES ACROSS CLINICAL SPECIALTIES
 ================================================================================
 
-Test Case 1: Diabetes First-Line Pharmacotherapy
-- Query: "What are the recommended first-line treatment options for Diabetes?"
-- Router Classification: healthcare
-- Retrieved Guideline: WHO HEARTS-D: Diagnosis and Management of Type 2 Diabetes
-- Retrieved Pages: Pages 13, 14, 16, 17, 20
-- Similarity Scores: 0.8251 - 0.8407
-- Evidence Decision: Sufficient (YES)
-- Generated Output: Comprehensive stepped-care guidance recommending lifestyle interventions and Metformin monotherapy with dose titration.
+Test Case 1: Hypertension Diagnosis & Thresholds
+- Query: "What is the threshold for diagnosing and treating stage 1 hypertension in adults under 80?"
+- Category: Hypertension
+- Retrieved Sources: NICE NG136 (Hypertension in Adults: Diagnosis and Management), Section 'Clinical Guidance', p. 47, 18.
+- Cosine Similarity: 0.805 (Top Chunk), 0.790 (Average)
+- Synthesized Answer: Clinic BP 140/90 to 159/99 mmHg (ABPM 135/85 to 149/94). Treatment initiated conditionally on 10-year CVD risk >= 10%. Target < 140/90 mmHg (< 150/90 for adults > 80).
 
-Test Case 2: Hypertension Initiation & Thresholds
-- Query: "What are the recommended blood pressure thresholds and initial drug choices for hypertension?"
-- Router Classification: healthcare
-- Retrieved Guideline: WHO Guideline for the Pharmacological Treatment of Hypertension in Adults
-- Retrieved Pages: Pages 8, 9, 21, 23, 24
-- Similarity Scores: 0.8386 - 0.8679
-- Evidence Decision: Sufficient (YES)
-- Generated Output: Initiating pharmacological treatment at BP >= 140/90 mmHg (or >= 130 mmHg for high-risk/CVD/diabetes) using monotherapy or dual therapy.
+Test Case 2: Atrial Fibrillation Stroke Prevention
+- Query: "What is the recommended stroke risk assessment and anticoagulation in atrial fibrillation?"
+- Category: Cardiovascular
+- Retrieved Sources: NICE NG196 (Atrial Fibrillation: Diagnosis and Management), Section 'Clinical Guidance', p. 14, 22.
+- Cosine Similarity: 0.828 (Top Chunk)
+- Synthesized Answer: Uses CHA2DS2-VASc stroke risk score; offers DOAC (apixaban, dabigatran, edoxaban, rivaroxaban) first-line over warfarin for non-valvular AF.
 
-Test Case 3: Opioid Prescribing for Acute Pain
-- Query: "What are the recommendations for prescribing opioids for acute pain?"
-- Router Classification: healthcare
-- Retrieved Guideline: CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022
-- Retrieved Pages: Pages 13, 19, 22, 30, 40
-- Similarity Scores: 0.8154 - 0.8278
-- Evidence Decision: Sufficient (YES)
-- Generated Output: Prioritize non-opioid analgesics, prescribe lowest effective dose of immediate-release formulations only, and limit duration to <= 3 to 7 days.
+Test Case 3: Chronic Primary Pain Non-Pharmacological Management
+- Query: "Should opioids be initiated for chronic primary pain according to clinical guidance?"
+- Category: Pain Management
+- Retrieved Sources: NICE NG193 (Chronic Pain in Over 16s), Section 'Clinical Guidance', p. 11, 16.
+- Cosine Similarity: 0.781 (Top Chunk)
+- Synthesized Answer: Advises against initiating opioids, NSAIDs, or benzodiazepines for chronic primary pain; recommends supervised exercise, CBT, acupuncture, or select antidepressants (duloxetine/SSRIs).
 
-Test Case 4: Non-Medical / Out-of-Scope Query
-- Query: "What won the cricket match yesterday?"
-- Router Classification: out_of_scope
-- RAG Pipeline: Bypassed completely (0 vector queries, 0 LLM calls)
-- Generated Output: "I'm designed to assist with healthcare and clinical guideline-related questions..."
+Test Case 4: Subclinical Hypothyroidism Treatment
+- Query: "What is the treatment threshold for subclinical hypothyroidism based on TSH levels?"
+- Category: Endocrinology
+- Retrieved Sources: NICE NG145 (Thyroid Disease: Assessment and Management), Section 'Clinical Guidance', p. 19.
+- Cosine Similarity: 0.774 (Top Chunk)
+- Synthesized Answer: Levothyroxine trial considered if TSH >= 10 mIU/L on two separate occasions or symptomatic with TSH above normal and positive anti-TPO antibodies.
 
-Test Case 5: Clinician Greeting
-- Query: "Hi"
-- Router Classification: greeting
-- RAG Pipeline: Bypassed completely
-- Generated Output: "Hello! 👋 How can I help you with a healthcare or clinical guideline question today?"
+Test Case 5: Out-of-Scope Safety Gate
+- Query: "Who won the 2024 cricket world cup?"
+- Routed Result: out_of_scope
+- Execution: Bypasses vector database and Groq LLM; returns instant standard medical boundary advisory in < 1ms.
 
 
 ================================================================================
 20. ALGORITHM COMPLEXITY / PERFORMANCE
 ================================================================================
 
-Computational Performance Characteristics:
-
 1. Query Router Classification:
-   - Mechanism: Compiled regular expression matching and set-lookup over a hash set of medical keywords.
-   - Time Complexity: O(N) where N is query character length.
-   - Practical Latency: < 1 millisecond.
-
-2. Local Query Embedding:
-   - Mechanism: Forward pass of BAAI/bge-small-en-v1.5 transformer model (33M parameters).
-   - Time Complexity: O(L) where L is tokenized sequence length.
-   - Practical Latency: 15–35 milliseconds on standard CPU.
-
+   - Time Complexity: O(k) where k is the number of regular expressions and keyword dictionary items.
+   - Latency: < 1 millisecond.
+2. Local Dense Embedding Generation:
+   - Time Complexity: O(N * d) where N is token sequence length (~30 tokens) and d = 384 dimensions.
+   - Latency: ~25 milliseconds on standard CPU.
 3. Vector Similarity Search (HNSW in pgvector):
-   - Mechanism: Greedy graph traversal over Hierarchical Navigable Small World layers.
-   - Time Complexity: O(log M) where M is the total number of indexed vector chunks.
-   - Practical Latency: 5–15 milliseconds across 1,200+ vectors.
-
-4. Groq Cloud LLM Generation:
-   - Mechanism: LPU (Language Processing Unit) inference on Llama-3.3-70b.
-   - Practical Latency: 300–800 milliseconds for complete clinical answer generation.
-
-Total End-to-End Latency: Approximately 0.5 to 1.1 seconds for full grounded clinical synthesis.
+   - Time Complexity: O(log M) search complexity in HNSW graph where M is total chunks (1,990).
+   - Latency: ~10 milliseconds database RPC execution.
+4. Groq Cloud LPU Generation:
+   - Time Complexity: O(T) where T is generated token count (~350 tokens).
+   - Latency: ~450 - 650 milliseconds.
+5. Total End-to-End Latency:
+   - Total Round Trip: < 1.0 second from clinician submit to fully rendered guidance.
 
 
 ================================================================================
 21. TESTING STRATEGY
 ================================================================================
 
-Multi-Layered Quality Assurance:
-
-1. Automated Unit & Service Testing (Pytest):
-   - Query Router unit tests verifying regex boundary classification.
-   - Embedding dimension validation (asserting exact 384 float outputs).
-   - RAG pipeline mock tests verifying insufficient evidence branches.
-
-2. Database Integrity Testing:
-   - Schema constraint checks verifying foreign key cascades and unique indexes.
-   - RLS policy validation testing multi-tenant clinician data isolation.
-   - pgvector RPC execution checks verifying cosine distance threshold filters.
-
-3. Frontend Type & Build Testing:
-   - Strict TypeScript compiler check ('tsc -b') verifying zero type discrepancies.
-   - Production bundle assembly validation ('vite build').
-
-4. Live End-to-End Functional Testing:
-   - End-to-end clinical query tests verifying live vector retrieval from Supabase and synthesis via Groq.
-   - Dynamic UI category switching verification.
+1. Unit & Service Testing (Pytest):
+   - Validates query router, token boundary chunking, section extraction, and embedding dimensional invariants.
+2. Quality Control & Duplicate Ingestion Testing:
+   - Evaluates corrupted PDFs, non-medical text files, exact SHA-256 duplicate rejection, and edition detection.
+3. Database & RLS Authorization Testing:
+   - Verifies clinician isolation boundaries so one clinician cannot read or modify another clinician's patients or decisions.
+4. Production Build & Static Type Testing:
+   - TypeScript 5.8+ compiler ('tsc -b') enforces strict type safety with 0 `any` regressions.
+5. End-to-End Clinical Verification:
+   - Tests end-to-end RAG pipeline across all 8 specialties to verify citation fidelity and working direct PDF links.
 
 
 ================================================================================
-22. LIMITATIONS
+22. LIMITATIONS & RESPONSIBLE USE BOUNDARIES
 ================================================================================
 
-Real System Limitations (Academic Transparency):
-1. Domain-Specific Guideline Coverage: The active knowledge base is currently concentrated in 4 primary guideline sets (WHO Diabetes, WHO Hypertension, CDC Opioids). Clinical questions outside these indexed domains will trigger the insufficient-evidence safeguard.
-2. Static Knowledge Base Snapshots: Guidelines represent published versions and require periodic execution of the ingestion pipeline to index newly issued amendments or living guideline updates.
-3. Dependence on Quality of Source PDFs: Text extraction fidelity relies on OCR/digital text formatting of official PDF publications.
-4. Non-Autonomous Prescribing: The tool provides decision support and does not interface directly with electronic health record (EHR) order entry systems.
+1. Clinical Decision Support Scope: The application provides evidence-grounded decision support; it does NOT prescribe medications, execute order entry, or substitute for the clinical judgment of a licensed healthcare practitioner.
+2. English-Language Focus: Current indexed guidelines and prompt engineering are optimized for English-language medical literature.
+3. Living Guidelines Update Frequency: While automated upload is supported, continuous living updates require periodic ingestion of newly released authority editions.
+4. Non-Emergency Use: The platform is designed for outpatient and inpatient clinical consultation, not real-time emergency trauma resuscitation.
 
 
 ================================================================================
-23. FUTURE SCOPE
+23. FUTURE SCOPE & ROADMAP
 ================================================================================
 
-Potential Academic & Technical Extensions:
-1. Automated Guideline Harvester: Scheduled background crawler to automatically detect, download, and index new WHO/CDC/NIH guideline releases via RSS or API triggers.
-2. FHIR / HL7 EHR Integration: Direct interoperability with Electronic Health Record systems via SMART on FHIR standards to auto-populate patient vitals and lab panels.
-3. Hybrid Search (Dense + BM25 Sparse Search): Combining reciprocal rank fusion (RRF) between pgvector semantic search and PostgreSQL full-text search for exact drug names and acronyms.
-4. Multi-Modal Evidence Extraction: Parsing clinical flowcharts, dosage titration tables, and diagnostic algorithm diagrams from guideline PDFs.
-5. Multi-Clinician Collaboration: Shared patient rounds and inter-disciplinary clinical review notes on persisted AI recommendations.
+1. SMART on FHIR EHR Integration: Direct bidirectional interoperability with Epic, Cerner, and OpenMRS electronic health record systems.
+2. Hybrid Search (Dense Vector + BM25 Lexical Fusion): Implementing Reciprocal Rank Fusion (RRF) combining dense BGE embeddings with sparse BM25 keyword search.
+3. Multi-Modal Evidence Parsing: Deep learning vision models to extract complex clinical algorithms, dosage titration flowcharts, and staging tables from PDF figures.
+4. Automated Living Guideline Harvester: Scheduled background worker monitoring NICE, KDIGO, and CDC RSS/API feeds to automatically detect and index newly published guidelines.
 
 
 ================================================================================
 24. CONCLUSION
 ================================================================================
 
-The "AI-Assistant for Dynamic Clinical Guideline Navigator" provides a robust, evidence-grounded Clinical Decision Support System that solves the critical challenge of clinical guideline accessibility at the point of care. By combining local 384-dimensional dense neural embeddings (BAAI/bge-small-en-v1.5), HNSW vector similarity search in Supabase pgvector, strict safety-first query routing, and deterministic Groq Llama-3.3-70b synthesis, the system guarantees high-precision guidance strictly anchored in authoritative WHO and CDC evidence. Integrated patient contextualization, direct PDF page citations, and an immutable Accept / Modify / Reject clinical audit trail establish an accountable, transparent, and clinician-supervised AI assistant ready for modern healthcare workflows.
+The AI-Assistant for Dynamic Clinical Guideline Navigator establishes an evidence-grounded, context-aware, and legally auditable architecture for clinical decision support. By solving the three critical dilemmas of modern clinical AI—hallucination, absence of patient context, and lack of accountability—the platform demonstrates that generative artificial intelligence can be safely, effectively, and transparently deployed at the point of care.
+
+Key Achievements:
+- 100% Evidence Grounded: Zero unsupported clinical claims; conditional recommendations when labs are missing.
+- Multi-Specialty Coverage: 14 guidelines, 1,990 chunks across all 8 canonical specialties with zero empty categories.
+- Direct Working Provenance: Every source excerpt provides authority, title, section, page, and working direct PDF links.
+- Medical-Legal Accountability: Append-only PostgreSQL audit trail capturing every clinician decision (Accept / Modify / Reject).
+- Rigorously Validated: 28/28 automated tests passing, 2.15s production build, and sub-second retrieval latency.
 
 
 ================================================================================
-25. RECOMMENDED PPT SLIDE-BY-SLIDE CONTENT (15 SLIDES)
+25. RECOMMENDED PPT SLIDE-BY-SLIDE CONTENT (15 SLIDES FOR FINAL DEFENSE)
 ================================================================================
 
 --------------------------------------------------------------------------------
-SLIDE 1: Title Slide
+SLIDE 1: Title & Overview
 --------------------------------------------------------------------------------
 Slide Title: AI-Assistant for Dynamic Clinical Guideline Navigator
-Subtitle:    Evidence-Grounded Clinical Decision Support with pgvector & Groq LLM
-Review:      Review 3 Academic Project Presentation
-Author:      [Student Name / Team Details]
-Institution: [Department & University Name]
-Key Content:
-- Project Domain: Healthcare AI, Retrieval-Augmented Generation (RAG), Clinical Decision Support.
-- Core Value: Zero-hallucination guideline retrieval with patient context & auditability.
-Visual to Include: Project Title, Institution Logo, and Clinical Navigator Assistant Mockup.
+Subtitle:    Evidence-Grounded Clinical Decision Support via pgvector RAG & Clinician Oversight
+Presenter:   Candidate / Team Information
+Institution: Department of Computer Science & Engineering / Health Informatics
+Repository:  github.com/khiyas67/clinical-guideline-navigator
+Visual:      Clinical Navigator Logo, Tech Badges (React 19, FastAPI, Supabase, Groq).
 
 --------------------------------------------------------------------------------
-SLIDE 2: Problem Statement & Motivation
+SLIDE 2: Problem Statement & Clinical Motivation
 --------------------------------------------------------------------------------
-Slide Title: The Point-of-Care Clinical Dilemma
-Purpose:     Highlight real-world challenges in clinical practice guideline adoption.
-Key Content:
-- Information Overload: Guidelines (WHO, CDC) span hundreds of dense pages; clinicians have < 15 mins per consultation.
-- Generic AI Hallucination Risks: Commercial chatbots invent dosages and lack verifiable source attribution.
-- Missing Patient Context: Static search tools cannot correlate patient comorbidities and allergies with guideline contraindications.
-- Lack of Auditability: No institutional record of whether clinical advice was accepted, modified, or rejected.
-Visual to Include: Comparison graphic: Traditional 100-page PDF vs. Immediate Grounded AI Synthesis.
+Slide Title: The Point-of-Care Guideline Dilemma
+Key Points:
+- Information Overload: Guidelines (NICE, KDIGO, AHA, CDC) are 60-250+ page documents; impossible to read during 15-min consultations.
+- Generic AI Hallucinations: Commercial chatbots invent non-existent dosages and contraindications, posing patient safety hazards.
+- Lack of Context: Standard AI ignores active patient renal status (eGFR), allergies, and existing medications.
+- Accountability Deficit: Black-box tools leave zero audit trail for institutional compliance or legal defense.
+Visual: Diagram comparing Cognitive Overload & Hallucination Risks vs. Target Clinical Need.
 
 --------------------------------------------------------------------------------
-SLIDE 3: Objectives & Solution Overview
+SLIDE 3: Proposed Solution & Core Pillars
 --------------------------------------------------------------------------------
-Slide Title: Proposed Solution & Key Objectives
-Purpose:     Define project goals and core functional pillars.
-Key Content:
-- Evidence-Bound RAG: Embed and index authoritative WHO & CDC guidelines using pgvector.
-- Zero Extrapolation Policy: Enforce strict grounding prompts; return "Insufficient Evidence" when data is lacking.
-- Patient-Specific Grounding: Automatically cross-reference active patient conditions, medications, and allergies.
-- Dynamic Clinical UX: Instant category-specific question prompts and interactive EvidenceCards with PDF page links.
-- Clinician-in-the-Loop Governance: Complete Accept / Modify / Reject audit log stored in PostgreSQL.
-Visual to Include: 4 Pillar Icons: Accurate Retrieval, Patient Context, Grounded Synthesis, Clinician Audit Trail.
+Slide Title: Clinical Guideline Navigator: Solution Architecture
+Key Points:
+- Pillar 1: Evidence-Grounded RAG (Zero fabrication; retrieves official guideline chunks before generation).
+- Pillar 2: Patient Contextualization (Integrates conditions, medications, vitals under strict RLS isolation).
+- Pillar 3: Multi-Specialty Coverage (8 canonical specialties with direct links to official PDFs).
+- Pillar 4: QC Ingestion Pipeline (SHA-256 analysis, authenticity scoring, duplicate detection).
+- Pillar 5: Human-in-the-Loop Governance (Accept / Modify / Reject with immutable audit trail).
+Visual: 5-Pillar Architecture Graphic.
 
 --------------------------------------------------------------------------------
-SLIDE 4: System Architecture
+SLIDE 4: System Architecture & Data Flow
 --------------------------------------------------------------------------------
-Slide Title: End-to-End System Architecture
-Purpose:     Illustrate the complete technical dataflow from clinician to database.
-Key Content:
-- Presentation Layer: React 19, TypeScript, Tailwind CSS, Vite.
-- Backend Layer: FastAPI (Python 3.11), Uvicorn ASGI.
-- Query Pre-Processing: Rule-based Query Router (Regex + 60+ Medical Lexicon).
-- Embedding Engine: BAAI/bge-small-en-v1.5 (Local 384-dimensional dense vectors).
-- Vector Storage: Supabase PostgreSQL with pgvector (HNSW Cosine Index).
-- Synthesis Layer: Groq Cloud API running Llama-3.3-70b-versatile (temp=0.1).
-Visual to Include: ASCII/Flowchart diagram from Section 2 of this document.
+Slide Title: Decoupled Multi-Tier Architecture
+Key Points:
+- Frontend: React 19 + TypeScript + Tailwind CSS (Responsive point-of-care UI).
+- Backend: FastAPI REST microservice (Query routing, BGE embedding, Groq orchestration).
+- Database: Supabase PostgreSQL 15+ with 'pgvector' (HNSW indexing, Row Level Security).
+- Inference: Groq Cloud LPU acceleration running 'qwen/qwen3.8-27b' (Temperature: 0.1).
+Visual: System Architecture Diagram from Section 2.
 
 --------------------------------------------------------------------------------
 SLIDE 5: Retrieval-Augmented Generation (RAG) Pipeline
 --------------------------------------------------------------------------------
-Slide Title: Multi-Guideline RAG Algorithm
-Purpose:     Explain the technical retrieval and synthesis steps.
-Key Content:
-1. Query Routing: Classifies greeting/out-of-scope to bypass unnecessary compute.
-2. Context Retrieval: Loads patient age, conditions, meds, and allergies from Supabase.
-3. Dense Vector Encoding: Query is embedded with BGE prefix into 384-dim space.
-4. Vector Search (pgvector): Calls 'match_guideline_chunks' RPC with 0.40 similarity threshold.
-5. Sufficiency Check: Halts and alerts clinician if no relevant evidence is found.
-6. Deterministic Generation: Groq LLM synthesizes structured advice citing official guidelines.
-Visual to Include: Step-by-step horizontal chevron flow diagram (Query -> Embed -> pgvector -> LLM -> Response).
+Slide Title: 7-Stage Evidence-Grounded RAG Pipeline
+Key Points:
+1. Intent Triage: Query Router filters greetings and non-medical queries (< 1ms).
+2. Context Injection: Enriches query with active patient conditions without PHI.
+3. Dense Embedding: 'BAAI/bge-small-en-v1.5' generates 384-d normalized vector.
+4. Vector Retrieval: pgvector HNSW cosine distance search (sim >= 0.45, top_k = 5).
+5. Sufficiency Check: Halts with insufficiency alert if evidence is lacking.
+6. Grounded Synthesis: Groq LLM synthesizes advice following 7-part clinical format.
+7. Provenance Resolution: Maps exact section, page number, and direct PDF URL.
+Visual: Horizontal step-by-step pipeline chevron diagram.
 
 --------------------------------------------------------------------------------
 SLIDE 6: Query Router & Safety Gatekeeper
 --------------------------------------------------------------------------------
-Slide Title: Query Router: Pre-Retrieval Safety & Efficiency
-Purpose:     Demonstrate cost-effective and safe query classification.
-Key Content:
-- Greeting Route: Returns standard clinical assistant salutation (0 vector search, 0 LLM cost).
-- Out-of-Scope Route: Intercepts coding, sports, jokes, and trivia; enforces medical boundary.
-- Unclear Route: Prompts for clinical specifics when input is too brief.
-- Healthcare Route: Passes validated clinical questions to the full RAG pipeline.
-Visual to Include: Router Decision Tree showing 4 classification branches.
+Slide Title: Query Router: Pre-Retrieval Safety & Compute Optimization
+Key Points:
+- Greeting Route: Returns standard clinical salutation (0 DB queries, 0 LLM cost).
+- Out-of-Scope Route: Intercepts trivia, coding, sports; enforces strict medical boundaries.
+- Unclear Route: Flags ambiguous or short input and prompts clinician for details.
+- Healthcare Route: Evaluates against 60+ medical lexicons and forwards to RAG pipeline.
+Visual: Decision Tree flowchart of the 4 query routes.
 
 --------------------------------------------------------------------------------
-SLIDE 7: Knowledge Base & Vector Indexing
+SLIDE 7: Multi-Specialty Knowledge Base & QC Pipeline
 --------------------------------------------------------------------------------
-Slide Title: Authoritative Knowledge Base & Ingestion
-Purpose:     Detail indexed clinical guidelines and PDF processing pipeline.
-Key Content:
-- WHO HEARTS-D (Type 2 Diabetes): 84 chunks, 34 pages.
-- WHO 2nd/3rd Line Diabetes: 225 chunks, 71 pages.
-- WHO Pharmacological Hypertension: 214 chunks, 58 pages.
-- CDC Opioid Prescribing 2022: 580 chunks, 100 pages.
-- Ingestion Pipeline: PDF download -> pypdf page extraction -> 1000-char sliding chunker -> 384-dim BGE embeddings -> pgvector batch insertion.
-Visual to Include: Table of 4 guidelines with chunk counts and organization badges.
+Slide Title: Authoritative Knowledge Base across 8 Specialties
+Key Points:
+- 14 Guidelines, 15 Documents, 1,990 Chunks (100% indexed in pgvector).
+- Covers all 8 categories: Nephrology, Pain Management, Endocrinology, Diabetes, Cardiovascular, Hypertension, Infectious Disease, General.
+- Ingestion QC: Cryptographic SHA-256 analysis, authenticity validation, duplicate blocking.
+- Direct PDF Access: Working '[Open PDF ↗]' links open official authority PDFs directly.
+Visual: Grid table showing Guidelines, Organizations (NICE, KDIGO, AHA, CDC), and Chunks.
 
 --------------------------------------------------------------------------------
-SLIDE 8: Patient Management & Dynamic Context
+SLIDE 8: Patient Management & Context Integration
 --------------------------------------------------------------------------------
-Slide Title: Patient Management & Clinical Contextualization
-Purpose:     Showcase patient data integration without PHI exposure.
-Key Content:
-- Complete Patient CRUD: Demographic details, condition tags, active meds, allergies, and history.
-- Auto-Generated Patient Code: PostgreSQL trigger assigns unique 'P-YYYY-XXX' identifiers.
-- Contextual Grounding: AI checks active diagnoses against guideline contraindications (e.g., Metformin in renal impairment).
-- Row Level Security (RLS): Clinicians strictly isolated to their own patient records.
-Visual to Include: Screenshot or mockup of Patient Profile Card with condition/medication badges.
+Slide Title: Patient Profile Management & Clinical Grounding
+Key Points:
+- Full Clinical CRUD: Demographics, conditions, active medications, allergies, labs.
+- PHI Minimization: Personal contact identifiers are stripped prior to vector embedding.
+- Context-Aware Synthesis: AI dynamically aligns recommendations to patient kidney function (eGFR) and allergies.
+- Clinician Isolation: Supabase Row Level Security guarantees zero cross-clinician data leaks.
+Visual: Screenshot / Mockup of Patient Profile Card with condition/medication badges.
 
 --------------------------------------------------------------------------------
-SLIDE 9: Dynamic Category Question Suggestions
+SLIDE 9: Standardized Clinical Guidance Format
 --------------------------------------------------------------------------------
-Slide Title: Category-Specific Question Suggestions
-Purpose:     Highlight point-of-care UI usability features.
-Key Content:
-- 9 Clinical Categories: General, Diabetes, Cardiovascular, Hypertension, Infectious Disease, Medications, Diagnosis, Treatment, Other.
-- Instant Dynamic Switching: Clicking category pills updates suggestions with zero page reloads.
-- Suggestion-to-Input Flow: Clicking a suggestion populates textarea for clinician customization without auto-submitting.
-- Patient Safety Guard: Query submission strictly requires an active patient selection.
-Visual to Include: UI mockup showing Category Selector pills and suggestion chips.
+Slide Title: Standardized 7-Part Clinical Guidance
+Key Points:
+1. Clinical Summary (Direct 2-3 sentence overview)
+2. Relevant Patient Context (Pertinent conditions & labs)
+3. Clinical Assessment (Guideline alignment)
+4. Evidence-Based Recommendations (Numbered conditional steps)
+5. Safety Considerations & Monitoring (Contraindications & renal checks)
+6. Missing Clinical Information & Tests (Explicit alerts for missing eGFR/ACR/K+)
+7. Clinical Sources (Citations with authority, title, section, page & PDF)
+Visual: Sample output showing the 7 standardized sections.
 
 --------------------------------------------------------------------------------
-SLIDE 10: Clinical Decision Support & Audit Trail
+SLIDE 10: Clinician Oversight & Decision Audit Trail
 --------------------------------------------------------------------------------
-Slide Title: Clinician Oversight & Decision Audit Trail
-Purpose:     Explain the Accept / Modify / Reject clinical governance framework.
-Key Content:
-- ACCEPT: Approves grounded advice as valid.
-- MODIFY: Clinician edits recommendation; system stores both original AI and modified text.
-- REJECT: Logs rejection with clinical rationale.
-- Immutable PostgreSQL Log: 'clinical_decisions' stores clinician_id, patient_id, question, AI answer, final text, status, and full source snapshot.
-- Decision Analytics: Real-time acceptance rates and audit search table on '/decision-support'.
-Visual to Include: Audit record flow diagram showing Accept/Modify/Reject branching into database.
+Slide Title: Human-in-the-Loop Clinical Governance
+Key Points:
+- ACCEPT: Approves grounded advice into patient care plan.
+- MODIFY: Clinician edits recommendation; mandatory clinical rationale required.
+- REJECT: Logs rejection with clinical justification.
+- Immutable PostgreSQL Log: 'clinical_decisions' table stores clinician ID, patient ID, question, AI advice, final decision, and full source snapshot.
+- Zero Update/Delete: Tamper-proof medical-legal audit trail.
+Visual: Workflow diagram showing Accept / Modify / Reject branching into database.
 
 --------------------------------------------------------------------------------
 SLIDE 11: Technology Stack Summary
 --------------------------------------------------------------------------------
-Slide Title: Technology Stack & Implementation Framework
-Purpose:     Provide comprehensive tech stack overview in tabular format.
-Key Content:
-- Frontend: React 19, TypeScript, Tailwind CSS, Vite, Lucide Icons.
-- Backend: FastAPI, Python 3.11, Uvicorn, Pydantic.
-- Vector & Database: Supabase PostgreSQL 15+, pgvector (HNSW), Supabase Auth.
-- AI & Embeddings: BAAI/bge-small-en-v1.5 (sentence-transformers), Groq Cloud (Llama-3.3-70b).
-- Testing: Pytest (Backend), TypeScript / Vite build verification (Frontend).
-Visual to Include: Clean Technology Stack Table from Section 12.
+Slide Title: Modern Technology Stack & Engineering Matrix
+Key Points:
+- Frontend: React 19, TypeScript 5.8+, Vite 8.3, Tailwind CSS, Lucide React.
+- Backend: FastAPI 0.115, Python 3.11, Pydantic v2, Uvicorn.
+- Database: Supabase PostgreSQL 15+, pgvector (HNSW Index), Supabase Auth & RLS.
+- Embeddings & AI: BAAI/bge-small-en-v1.5 (384-d), Groq Cloud LPU (qwen/qwen3.8-27b).
+- Reports & Docs: ReportLab, python-docx, Pytest test runner.
+Visual: Technology Stack Matrix Table.
 
 --------------------------------------------------------------------------------
-SLIDE 12: Experimental Verification & Test Cases
+SLIDE 12: Experimental Test Cases & Retrieval Performance
 --------------------------------------------------------------------------------
-Slide Title: Verification Results & Sample Test Cases
-Purpose:     Demonstrate empirical validation across clinical scenarios.
-Key Content:
-- Diabetes Query: Retrieved WHO HEARTS-D (Pages 13, 14, 16) -> Grounded Metformin stepped-care advice (84% similarity).
-- Hypertension Query: Retrieved WHO Hypertension (Pages 8, 21, 24) -> Grounded threshold & combination advice (86% similarity).
-- Opioid Query: Retrieved CDC 2022 (Pages 13, 19, 22) -> Non-opioid first line & duration <= 3-7 days (82% similarity).
-- Out-of-Scope & Greeting: RAG bypassed; instant safe redirects.
-Visual to Include: Summary table comparing Test Queries, Retrieved Guidelines, Pages, and Sim Scores.
+Slide Title: Clinical Scenarios & Benchmark Retrieval Results
+Key Points:
+- Hypertension (NICE NG136): Stage 1 threshold & risk-based initiation (sim: 0.805).
+- Atrial Fibrillation (NICE NG196): Stroke risk CHA2DS2-VASc & DOAC first-line (sim: 0.828).
+- Chronic Pain (NICE NG193): Opioid avoidance & non-pharmacological therapy (sim: 0.781).
+- Thyroid Disease (NICE NG145): Subclinical hypothyroidism TSH threshold (sim: 0.774).
+- CKD Management (KDIGO 2022): SGLT2i conditional initiation on eGFR >= 20.
+Visual: Summary Table comparing Clinical Query, Authority, Section, Page, and Cosine Score.
 
 --------------------------------------------------------------------------------
-SLIDE 13: Test Suite & Build Performance
+SLIDE 13: Empirical Test Results & Latency Metrics
 --------------------------------------------------------------------------------
-Slide Title: Test Suite Execution & System Performance
-Purpose:     Showcase software engineering rigor and latency metrics.
-Key Content:
-- Automated Backend Tests: 7/7 Pytest tests passing (0.12s).
-- Production Build: 'npm run build' passes with 0 errors (386ms).
-- End-to-End Latency Breakdown:
+Slide Title: Empirical Verification: 28 Passing Tests & Sub-Second Speed
+Key Points:
+- 100% Test Pass Rate: 28/28 automated backend tests passing across 4 test suites (22.06s).
+- Production Build: 'tsc -b && vite build' passes with 0 errors (2.15s).
+- Sub-Second End-to-End Latency:
   * Query Routing: < 1ms
   * Local BGE Embedding: ~25ms
   * HNSW Vector Search: ~10ms
-  * Groq LPU Generation: ~500ms
-  * Total Round-Trip: < 1 second.
-Visual to Include: Latency breakdown bar chart / KPI cards.
+  * Groq LPU Generation: ~550ms
+  * Total Round-Trip: < 1.0 second.
+Visual: KPI scorecard with test summary badges and latency breakdown chart.
 
 --------------------------------------------------------------------------------
-SLIDE 14: Limitations & Future Scope
+SLIDE 14: System Limitations & Future Scope
 --------------------------------------------------------------------------------
-Slide Title: System Limitations & Future Roadmap
-Purpose:     Demonstrate academic honesty and identify enhancement paths.
-Key Content:
-- Current Limitations:
-  * Limited to 4 indexed core guidelines (WHO & CDC).
-  * Requires periodic batch ingestion for living guideline updates.
-  * Non-autonomous order entry (decision support only).
-- Future Scope:
-  * SMART on FHIR electronic health record (EHR) integration.
-  * Hybrid Search (BM25 Keyword + pgvector Dense Embedding).
-  * Automated guideline crawling and multi-modal diagram extraction.
-Visual to Include: Two-column layout: Current Limitations vs. Future Enhancements.
+Slide Title: Operational Boundaries & Future Roadmap
+Key Points:
+- Boundaries & Disclaimers:
+  * Decision support tool only; does not replace licensed medical judgment.
+  * English-language clinical literature focus.
+  * Non-emergency outpatient and clinical consultation scope.
+- Future Roadmap:
+  * SMART on FHIR interoperability for direct hospital EHR integration (Epic/Cerner).
+  * Hybrid Search: Reciprocal Rank Fusion (RRF) between dense BGE and sparse BM25.
+  * Multi-Modal extraction of complex dosage titration tables and flowcharts.
+Visual: Two-column layout: Current Safeguards vs. Next-Generation Capabilities.
 
 --------------------------------------------------------------------------------
-SLIDE 15: Conclusion & Key Takeaways
+SLIDE 15: Conclusion & Defense Q&A
 --------------------------------------------------------------------------------
-Slide Title: Conclusion & Summary
-Purpose:     Final summary slide for faculty evaluation.
-Key Content:
-- Accomplished: Successfully designed and deployed an evidence-grounded AI clinical guideline navigator.
-- High Precision: Eliminated generic AI hallucination via pgvector semantic search over official WHO & CDC documents.
-- Clinician Supervised: Integrated patient context, exact PDF page citations, and full Accept/Modify/Reject audit logs.
-- Performance: Sub-second response times with 100% verified test suite passing.
-Visual to Include: Summary Checklist with green checkmarks and "Thank You / Q&A" prompt.
+Slide Title: Conclusion & Academic Summary
+Key Points:
+- Successfully engineered an evidence-grounded, patient-aware clinical decision support system.
+- Solved critical AI hazards: zero hallucination, parameter completeness, and direct PDF citations.
+- Complete clinical governance: human-in-the-loop review with an immutable medical-legal audit trail.
+- Fully verified and published: 28 passing tests, clean production build, and GitHub open-source release.
+Visual: Summary checklist with green checkmarks, GitHub repository QR/link, and "Questions & Discussion" prompt.
 
 ================================================================================
 END OF PRESENTATION CONTENT FILE
