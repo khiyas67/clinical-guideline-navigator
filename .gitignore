@@ -56,6 +56,10 @@ database/backups/
 *.pdf
 backend/*.pdf
 
+# Local Helper Scripts
+push_to_github.bat
+push_to_github.ps1
+
 # IDE & OS files
 .vscode/*
 !.vscode/extensions.json
