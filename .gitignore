@@ -1,0 +1,69 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.env
+*.env.local
+.env.local
+.env.*.local
+*.key
+*.pem
+*.cert
+*.secret
+
+# Python virtual environments & bytecode
+.venv/
+backend/.venv/
+venv/
+ENV/
+env/
+__pycache__/
+backend/app/**/__pycache__/
+backend/tests/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node dependencies & builds
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+dist-ssr/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Database local backups & dumps
+database/backups/
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# Local / Copyrighted guideline PDFs (reproducible via official URLs in docs)
+*.pdf
+backend/*.pdf
+
+# IDE & OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
